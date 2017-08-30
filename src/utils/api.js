@@ -88,7 +88,7 @@ fetch(`${api}/comments`, {
   body: JSON.stringify({ id, timestamp, body, author, parentId })
 }).then(res => res.json())
 
-export const voteComment = (id) =>
+export const voteComment = (id, option) =>
 fetch(`${api}/comments/${id}`, {
   method: 'POST',
   headers: {

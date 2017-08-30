@@ -36,7 +36,7 @@ export function updatePost({id, timestamp, title, body, category}) {
   }
 }
 
-export function deletePost({}){
+export function deletePost({id}){
   return {
     type: DELETE_POST,
     id

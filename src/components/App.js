@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
 import * as ReadableAPI from '../utils/api'
+import { connect } from 'react-redux'
 
 class App extends Component {
   state = {
@@ -8,7 +9,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-        ReadableAPI.getPosts().then((posts) => {
+        ReadableAPI.getAllPosts().then((posts) => {
             this.setState({posts})
         })
   }
@@ -16,10 +17,11 @@ class App extends Component {
   render() {
     return (
       <div className="container">
+      {console.log('props', this.props)}
         {console.log('posts', this.state.posts)}
       </div>
     );
   }
 }
 
-export default App;
+export default connect()(App);

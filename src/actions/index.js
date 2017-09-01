@@ -14,7 +14,8 @@ export function createPost({
     body,
     author,
     category,
-    voteScore
+    voteScore,
+    deleted
   }
 }
 

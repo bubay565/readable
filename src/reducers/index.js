@@ -12,7 +12,7 @@ import {
 } from '../actions'
 
 function posts (state = {}, action) {
-  const { id, timestamp, title, body, author, category } = action
+  const { id, timestamp, title, body, author, category, deleted } = action
 
     switch(action.type) {
         case CREATE_POST:

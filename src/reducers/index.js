@@ -11,15 +11,12 @@ import {
   DELETE_COMMENT
 } from '../actions'
 
-function posts (state = {}, action) {
+function posts (state = [], action) {
   const { id, timestamp, title, body, author, category, deleted } = action
 
     switch(action.type) {
         case CREATE_POST:
-          return {
-            ...state,
-
-          }
+          return [...state, ...action]
 
         case READ_POST:
           return {
@@ -37,13 +34,7 @@ function posts (state = {}, action) {
           }
 
         case DELETE_POST:
-          return {
-              ...state,
-              [id]: {
-                ...state[id],
-                [deleted]: true
-              }
-          }
+          return  state.filter(post => post.deleted !== true)
 
         default :
             return state

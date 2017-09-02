@@ -8,7 +8,9 @@ import {
   CREATE_COMMENT,
   READ_COMMENT,
   UPDATE_COMMENT,
-  DELETE_COMMENT
+  DELETE_COMMENT,
+  UPVOTE,
+  DOWNVOTE
 } from '../actions'
 
 function posts (state = [], action) {
@@ -16,7 +18,7 @@ function posts (state = [], action) {
 
     switch(action.type) {
         case CREATE_POST:
-          return [...state, ...action]
+          return state.concat(action)
 
         case READ_POST:
           return {
@@ -72,13 +74,11 @@ function votes (state = {}, action) {
   switch(action.type) {
     case UPVOTE:
       return {
-        ...state,
-        [voteScore]: voteScore + 1
+        ...state
       }
     case DOWNVOTE:
       return {
-        ...state,
-        [voteScore]: voteScore - 1
+        ...state
       }
 
     default:

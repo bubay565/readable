@@ -2,30 +2,44 @@ import React, { Component } from 'react';
 import '../App.css';
 import * as ReadableAPI from '../utils/api'
 import { connect } from 'react-redux'
+import { categories, readPosts } from '../actions'
 
 class App extends Component {
   componentDidMount() {
-        ReadableAPI.getAllPosts().then((posts) => {
-            this.setState({posts})
-        })
+        this.props.getPosts;
+          this.props.getCategories;
+
   }
 
   render() {
     return (
       <div className="container">
       {console.log('props', this.props)}
-        {console.log('posts', this.state.posts)}
       </div>
     );
   }
 }
 
-function  mapStateToProps() {
-
+function getAllPosts(){
+  return ReadableAPI.getAllPosts();
 }
 
-function mapDispatchToProps(){
+function getCategories(){
+  return ReadableAPI.getCategories();
+}
 
+function  mapStateToProps({ categories, posts}) {
+  return {
+    categories,
+    posts
+  }
+}
+
+function mapDispatchToProps(dispatch){
+  return {
+    getPosts: () => dispatch(getAllPosts()),
+    getCategories: () => dispatch(getCategories())
+  }
 }
 
 export default connect(

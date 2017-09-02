@@ -2,13 +2,20 @@ import React, { Component } from 'react';
 import '../App.css';
 import * as ReadableAPI from '../utils/api'
 import { connect } from 'react-redux'
-import { categories, readPosts } from '../actions'
+import { displayCategories, displayPosts } from '../actions'
 
 class App extends Component {
   componentDidMount() {
-        this.props.getPosts;
-          this.props.getCategories;
-
+    getCategories()
+    .then(
+      data => this.props.displayCategories(data)
+    )
+    .then(
+      getAllPosts()
+    )
+    .then(
+      data => this.props.displayPosts(data)
+    )
   }
 
   render() {
@@ -37,8 +44,8 @@ function  mapStateToProps({ categories, posts}) {
 
 function mapDispatchToProps(dispatch){
   return {
-    getPosts: () => dispatch(getAllPosts()),
-    getCategories: () => dispatch(getCategories())
+    displayPosts: (data) => dispatch(displayPosts(data)),
+    displayCategories: (data) => dispatch(displayCategories(data))
   }
 }
 

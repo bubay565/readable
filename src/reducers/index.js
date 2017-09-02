@@ -2,7 +2,6 @@ import { combineReducers } from 'redux'
 
 import {
   CREATE_POST,
-  READ_POST,
   UPDATE_POST,
   DELETE_POST,
   CREATE_COMMENT,
@@ -10,8 +9,22 @@ import {
   UPDATE_COMMENT,
   DELETE_COMMENT,
   UPVOTE,
-  DOWNVOTE
+  DOWNVOTE,
+  DISPLAY_POSTS,
+  DISPLAY_CATEGORIES
 } from '../actions'
+
+function categories(state = {}, action){
+  switch(action.type){
+    case DISPLAY_CATEGORIES:
+    return {
+        ...state,
+        [categories]: action.categories
+    }
+    default:
+      return state
+  }
+}
 
 function posts (state = [], action) {
   const { id, timestamp, title, body, author, category, deleted } = action
@@ -20,9 +33,10 @@ function posts (state = [], action) {
         case CREATE_POST:
           return state.concat(action)
 
-        case READ_POST:
+        case DISPLAY_POSTS:
           return {
-
+            ...state,
+            [posts]: action.posts
           }
 
         case UPDATE_POST:
@@ -36,7 +50,10 @@ function posts (state = [], action) {
           }
 
         case DELETE_POST:
-          return  state.filter(post => post.deleted !== true)
+          return {
+            ...state,
+            [posts]: action.posts.filter(post => post.deleted !== true)
+          }
 
         default :
             return state
@@ -89,5 +106,6 @@ function votes (state = {}, action) {
 export default combineReducers({
   posts,
   comments,
-  votes
+  votes,
+  categories
 })

@@ -15,20 +15,24 @@ import {
 } from '../actions'
 
 function categories(state = {}, action){
+  console.log('cat action', action.type)
+  console.log('cat state', state);
   switch(action.type){
     case DISPLAY_CATEGORIES:
+    console.log('state', state)
     return {
-        ...state,
-        [categories]: action.categories
+        categories: action.categories
     }
     default:
+      console.log('default')
       return state
   }
 }
 
 function posts (state = [], action) {
   const { id, timestamp, title, body, author, category, deleted } = action
-
+  //console.log('post action', action.type)
+  //console.log('post state', state);
     switch(action.type) {
         case CREATE_POST:
           return state.concat(action)

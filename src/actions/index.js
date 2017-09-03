@@ -1,3 +1,5 @@
+import * as ReadableAPI from '../utils/api'
+
 export const CREATE_POST = 'CREATE_POST'
 export const UPDATE_POST = 'UPDATE_POST'
 export const DELETE_POST = 'DELETE_POST'
@@ -10,17 +12,29 @@ export const DOWNVOTE = 'DOWNVOTE'
 export const DISPLAY_CATEGORIES = 'DISPLAY_CATEGORIES'
 export const DISPLAY_POSTS = 'DISPLAY_POSTS'
 
-export function displayCategories({data}){
-  return {
-    type: DISPLAY_CATEGORIES,
-    data
+export function getCategories(){
+  console.log('getcategories')
+  return (dispatch) => {
+    console.log('about to call api')
+    return ReadableAPI.getCategories()
+    .then(categories => {
+      console.log('categories', categories)
+      dispatch(displayCategories(categories));
+    });
   }
 }
 
-export function displayPosts({data}){
+export function displayCategories(categories){
+  console.log('action', categories)
   return {
-    type: DISPLAY_POSTS,
-    data
+    type: DISPLAY_CATEGORIES,
+    categories
+  }
+}
+
+export function displayPosts(){
+  return {
+    type: DISPLAY_POSTS
   }
 }
 

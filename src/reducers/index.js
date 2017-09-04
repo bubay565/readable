@@ -31,8 +31,6 @@ function categories(state = {}, action){
 
 function posts (state = [], action) {
   const { id, timestamp, title, body, author, category, deleted } = action
-  //console.log('post action', action.type)
-  //console.log('post state', state);
     switch(action.type) {
         case CREATE_POST:
           return state.concat(action)

@@ -6,7 +6,7 @@ import { getCategories } from '../actions'
 
 class App extends Component {
   componentDidMount() {
-    getCategories()
+    this.props.dispatch(getCategories())
   }
 
   render() {
@@ -34,6 +34,5 @@ function  mapStateToProps({ categories, posts}) {
 }*/
 
 export default connect(
-  mapStateToProps//,
-  //mapDispatchToProps
+  mapStateToProps
 )(App);

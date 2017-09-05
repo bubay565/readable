@@ -13,13 +13,20 @@ export const DISPLAY_CATEGORIES = 'DISPLAY_CATEGORIES'
 export const DISPLAY_POSTS = 'DISPLAY_POSTS'
 
 export function getCategories(){
-  console.log('getcategories')
   return (dispatch) => {
-    console.log('about to call api')
     return ReadableAPI.getCategories()
     .then(categories => {
-      console.log('categories', categories)
       dispatch(displayCategories(categories));
+    });
+  }
+}
+
+export function getPosts(){
+  return (dispatch) => {
+    return ReadableAPI.getAllPosts()
+    .then(posts => {
+      console.log('posts', posts)
+      dispatch(displayPosts(posts));
     });
   }
 }
@@ -32,9 +39,10 @@ export function displayCategories(categories){
   }
 }
 
-export function displayPosts(){
+export function displayPosts(posts){
   return {
-    type: DISPLAY_POSTS
+    type: DISPLAY_POSTS,
+    posts
   }
 }
 

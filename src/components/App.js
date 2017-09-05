@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import '../App.css';
-//import * as ReadableAPI from '../utils/api'
 import { connect } from 'react-redux'
-import { getCategories } from '../actions'
+import { getCategories, getPosts } from '../actions'
 
 class App extends Component {
   componentDidMount() {
     this.props.dispatch(getCategories())
+    this.props.dispatch(getPosts())
   }
 
   render() {
@@ -19,7 +19,6 @@ class App extends Component {
 }
 
 function  mapStateToProps({ categories, posts}) {
-  console.log('categories map', categories)
   return {
     categories,
     posts

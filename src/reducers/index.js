@@ -15,21 +15,17 @@ import {
 } from '../actions'
 
 function categories(state = {}, action){
-  console.log('cat action', action.type)
-  console.log('cat state', state);
   switch(action.type){
     case DISPLAY_CATEGORIES:
-    console.log('state', state)
     return {
         categories: action.categories
     }
     default:
-      console.log('default')
       return state
   }
 }
 
-function posts (state = [], action) {
+function posts (state = {}, action) {
   const { id, timestamp, title, body, author, category, deleted } = action
     switch(action.type) {
         case CREATE_POST:
@@ -37,8 +33,7 @@ function posts (state = [], action) {
 
         case DISPLAY_POSTS:
           return {
-            ...state,
-            [posts]: action.posts
+            posts: action.posts
           }
 
         case UPDATE_POST:

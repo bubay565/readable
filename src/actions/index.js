@@ -1,19 +1,26 @@
 import * as ReadableAPI from '../utils/api'
 
+export const FETCH_POSTS = 'FETCH_POSTS'
+export const DISPLAY_POSTS = 'DISPLAY_POSTS'
 export const CREATE_POST = 'CREATE_POST'
 export const UPDATE_POST = 'UPDATE_POST'
 export const DELETE_POST = 'DELETE_POST'
+export const FETCH_COMMENTS = 'FETCH_COMMENTS'
 export const CREATE_COMMENT = 'CREATE_COMMENT'
-export const READ_COMMENT = 'READ_COMMENT'
+export const DISPLAY_COMMENT = 'DISPLAY_COMMENT'
 export const UPDATE_COMMENT = 'UPDATE_COMMENT'
 export const DELETE_COMMENT = 'DELETE_COMMENT'
-export const UPVOTE = 'UPVOTE'
-export const DOWNVOTE = 'DOWNVOTE'
+export const UPVOTE_POST = 'UPVOTE_POST'
+export const DOWNVOTE_POST = 'DOWNVOTE_POST'
+export const UPVOTE_COMMENT = 'UPVOTE_COMMENT'
+export const DOWNVOTE_COMMENT = 'DOWNVOTE_COMMENT'
+export const FETCH_CATEGORIES = 'FETCH_CATEGORIES'
 export const DISPLAY_CATEGORIES = 'DISPLAY_CATEGORIES'
-export const DISPLAY_POSTS = 'DISPLAY_POSTS'
+
 
 export function getCategories(){
   return (dispatch) => {
+    dispatch(fetchCategories())
     return ReadableAPI.getCategories()
     .then(categories => {
       dispatch(displayCategories(categories));
@@ -21,14 +28,10 @@ export function getCategories(){
   }
 }
 
-export function getPosts(){
-  return (dispatch) => {
-    return ReadableAPI.getAllPosts()
-    .then(posts => {
-      console.log('posts', posts)
-      dispatch(displayPosts(posts));
-    });
-  }
+export function fetchCategories(){
+    return {
+      type: FETCH_CATEGORIES
+    }
 }
 
 export function displayCategories(categories){
@@ -39,10 +42,43 @@ export function displayCategories(categories){
   }
 }
 
+export function getPosts(){
+  return (dispatch) => {
+    dispatch(fetchPosts())
+    return ReadableAPI.getAllPosts()
+    .then(posts => {
+      console.log('action posts', posts)
+      dispatch(displayPosts(posts));
+    });
+  }
+}
+
+export function fetchPosts(){
+  return {
+    type: FETCH_POSTS
+  }
+}
+
 export function displayPosts(posts){
   return {
     type: DISPLAY_POSTS,
     posts
+  }
+}
+
+export function getComments(id){
+  return dispatch => {
+    dispatch(fetchComments())
+    return ReadableAPI.getPostComments(id)
+    .then(comments => {
+      dispatch(displayComments(comments));
+    });
+  }
+}
+
+export function fetchComments(){
+  return {
+    type: FETCH_COMMENTS
   }
 }
 
@@ -86,10 +122,10 @@ export function createComment(){
     }
   }
 
-export function readComment({id}){
+export function displayComments(comments){
   return {
-    type: READ_COMMENT,
-    id
+    type: DISPLAY_COMMENT,
+    comments
   }
 }
 
@@ -106,14 +142,26 @@ export function deleteComment({id}){
   }
 }
 
-export function upvote(){
+export function upvotePost(){
   return {
-    type: UPVOTE
+    type: UPVOTE_POST
   }
 }
 
-export function downvote() {
+export function downvotePost() {
   return {
-    type: DOWNVOTE
+    type: DOWNVOTE_POST
+  }
+}
+
+export function upvoteComment(){
+  return {
+    type: UPVOTE_COMMENT
+  }
+}
+
+export function downvoteComment() {
+  return {
+    type: DOWNVOTE_COMMENT
   }
 }

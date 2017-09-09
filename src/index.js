@@ -2,15 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App';
-import { createStore, applyMiddleware } from 'redux'
 import reducer from './reducers'
+import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
-import registerServiceWorker from './registerServiceWorker';
+import { createLogger } from 'redux-logger'
 import thunk from 'redux-thunk'
+import registerServiceWorker from './registerServiceWorker';
+
+const logger = createLogger()
 
 const store = createStore(
   reducer,
-  applyMiddleware(thunk)
+  applyMiddleware(thunk, logger)
 )
 
 ReactDOM.render(

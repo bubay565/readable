@@ -5,12 +5,16 @@ import {
   UPDATE_POST,
   DELETE_POST,
   CREATE_COMMENT,
-  READ_COMMENT,
+  DISPLAY_COMMENT,
   UPDATE_COMMENT,
   DELETE_COMMENT,
-  UPVOTE,
-  DOWNVOTE,
+  UPVOTE_POST,
+  DOWNVOTE_POST,
+  UPVOTE_COMMENT,
+  DOWNVOTE_COMMENT,
+  FETCH_POSTS,
   DISPLAY_POSTS,
+  FETCH_CATEGORIES,
   DISPLAY_CATEGORIES
 } from '../actions'
 
@@ -25,11 +29,22 @@ function categories(state = {}, action){
   }
 }
 
-function posts (state = {}, action) {
+function posts (state = [], action) {
   const { id, timestamp, title, body, author, category, deleted } = action
     switch(action.type) {
         case CREATE_POST:
-          return state.concat(action)
+          return [
+            ...state,
+            {
+              id,
+              timestamp,
+              title,
+              body,
+              author,
+              category,
+              deleted
+            }
+          ]
 
         case DISPLAY_POSTS:
           return {
@@ -57,27 +72,27 @@ function posts (state = {}, action) {
     }
 }
 
-function comments (state = {}, action) {
+function comments (state = [], action) {
     switch(action.type) {
       case CREATE_COMMENT:
+        return [
+
+        ]
+
+      case DISPLAY_COMMENT:
         return {
-
-        }
-
-      case READ_COMMENT:
-        return {
-
+          comments: action.comments
         }
 
       case UPDATE_COMMENT:
-        return {
+        return [
 
-        }
+        ]
 
       case DELETE_COMMENT:
-        return {
+        return [
 
-        }
+        ]
 
       default:
         return state
@@ -86,11 +101,11 @@ function comments (state = {}, action) {
 
 function votes (state = {}, action) {
   switch(action.type) {
-    case UPVOTE:
+    case UPVOTE_POST:
       return {
         ...state
       }
-    case DOWNVOTE:
+    case DOWNVOTE_POST:
       return {
         ...state
       }

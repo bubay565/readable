@@ -8,7 +8,14 @@ export default function Categories({ categories }) {
     <div className="categories">
       <h2>Categories</h2>
       <ul>
-
+        {categories.isLoading === true
+          ? <li>Loading...</li>
+          : categories.categories.map((category, index) =>
+            <li key={index}>
+              <a href={category.path}>{category.name}</a>
+            </li>
+          )
+        }
       </ul>
     </div>
   )

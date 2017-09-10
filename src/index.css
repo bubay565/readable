@@ -17,9 +17,20 @@ body {
 
 .header {
   display: flex;
+  justify-content: center;
+  background-color: grey;
+  color: white;
 }
 
 .main {
   display: flex;
-  flex-direction: column;
+}
+
+.categories {
+  flex: 1;
+  justify-content: center;
+}
+
+.posts {
+  flex: 4;
 }

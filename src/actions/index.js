@@ -47,8 +47,17 @@ export function getPosts(){
     dispatch(fetchPosts())
     return ReadableAPI.getAllPosts()
     .then(posts => {
-      console.log('action posts', posts)
-      dispatch(displayPosts(posts));
+      return Promise.all(posts.map(post => {
+        return Promise.resolve(post)
+          .then(post => ReadableAPI.getPostComments(post.id))
+          .then(comments => {
+            post.comments = comments;
+            return post
+          });
+      }))
+    })
+    .then(posts => {
+      dispatch(displayPosts(posts))
     });
   }
 }
@@ -67,6 +76,7 @@ export function displayPosts(posts){
 }
 
 export function getComments(id){
+  console.log('id', id);
   return dispatch => {
     dispatch(fetchComments())
     return ReadableAPI.getPostComments(id)

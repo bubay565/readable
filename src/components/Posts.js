@@ -6,12 +6,6 @@ export default function Posts({ posts }) {
     <div className="posts">
       <h2>Posts</h2>
       <div className="post-headers">
-        <ul>
-          <li>Title</li>
-          <li>Author</li>
-          <li>Vote Score</li>
-          <li>Comments</li>
-        </ul>
         <button className='shopping-list'>
             New Post
         </button>
@@ -19,23 +13,31 @@ export default function Posts({ posts }) {
           <option value="timestamp">Most Recent</option>
           <option value="voteScore">Highest Votes</option>
         </select>
+        <ul>
+          <li><strong>Title</strong></li>
+          <li><strong>Author</strong></li>
+          <li><strong>Vote Score</strong></li>
+          <li><strong>Comments</strong></li>
+        </ul>
       </div>
-      <ul>
-        {posts.isLoading === true
-          ? <li>Loading...</li>
-          : posts.map((post) =>
-            <li key={post.id}>
-              <div>
-                <ul>
-                  <li>{post.title}</li>
-                  <li>{post.body}</li>
-                  <li>{post.author}</li>
-                  <li>{post.voteScore}</li>
-                </ul>
-              </div>
-            </li>
-        )}
-      </ul>
+      <div className="posts-list">
+        <ul>
+          {posts.isLoading === true
+            ? <li>Loading...</li>
+            : posts.map((post) =>
+              <li key={post.id}>
+                <div>
+                  <ul>
+                    <li className="posts-summary"><a href="abc">{post.title}</a></li>
+                    <li className="posts-summary">{post.author}</li>
+                    <li className="posts-summary">{post.voteScore}</li>
+                    <li className="posts-summary">{post.comments.length}</li>
+                  </ul>
+                </div>
+              </li>
+          )}
+        </ul>
+      </div>
     </div>
   )
 }

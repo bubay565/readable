@@ -18,10 +18,12 @@ import {
   DISPLAY_CATEGORIES
 } from '../actions'
 
-function categories(state = {
-  categories: [],
-  isLoading: false
-}, action){
+function categories(
+  state = {
+    categories: [],
+    isLoading: false
+  }, action
+){
   switch(action.type){
     case FETCH_CATEGORIES:
       return Object.assign({}, state, {
@@ -131,7 +133,5 @@ function votes (state = {}, action) {
 
 export default combineReducers({
   posts,
-  comments,
-  votes,
   categories
 })

@@ -48,6 +48,16 @@ body {
   padding-left: 0;
 }
 
+.post-headers {
+    display: inline;
+}
+
 .post-headers li {
   display: inline;
+  margin: 2em
+}
+
+.posts-summary {
+  display: inline;
+  margin: 1.5em;
 }

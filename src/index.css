@@ -31,6 +31,23 @@ body {
   justify-content: center;
 }
 
+.categories ul {
+  list-style: none
+}
+
 .posts {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   flex: 4;
+  align-items: center;
+}
+
+.posts ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.post-headers li {
+  display: inline;
 }

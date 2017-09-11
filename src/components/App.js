@@ -29,8 +29,8 @@ class App extends Component {
 
 function  mapStateToProps({ categories, posts, comments}) {
   return {
-    categories,
-    posts,
+    categories: categories.categories,
+    posts: posts.posts,
     comments
   }
 }

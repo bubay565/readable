@@ -12,6 +12,10 @@ class App extends Component {
     this.props.dispatch(getPosts())
   }
 
+  sortPostsBy = (value) => {
+    this.props.posts.sort((post1, post2) => post1[value] > post2[value])
+  }
+
   render() {
     const { categories, posts, comments } = this.props
     return (

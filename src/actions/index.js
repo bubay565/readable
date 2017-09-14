@@ -16,7 +16,15 @@ export const UPVOTE_COMMENT = 'UPVOTE_COMMENT'
 export const DOWNVOTE_COMMENT = 'DOWNVOTE_COMMENT'
 export const FETCH_CATEGORIES = 'FETCH_CATEGORIES'
 export const DISPLAY_CATEGORIES = 'DISPLAY_CATEGORIES'
+export const SORT_POST = 'SORT_POST'
 
+export function sortPostsBy(sortParam){
+  console.log('param', sortParam)
+    return {
+      type: SORT_POST,
+      sortParam
+    }
+}
 
 export function getCategories(){
   return (dispatch) => {

@@ -4,14 +4,15 @@ class Posts extends Component {
 
   render(){
     const posts = this.props.posts
+    const sortPostsBy = this.props.sortPostsBy
     return (
       <div className="posts">
         <h2>Posts</h2>
         <div className="post-headers">
-          <button className='shopping-list'>
+          <button className='new-post'>
               New Post
           </button>
-          <select>
+          <select onChange={(e) => {sortPostsBy(e.target.value)}}>
             <option value="timestamp">Most Recent</option>
             <option value="voteScore">Highest Votes</option>
           </select>
@@ -26,7 +27,9 @@ class Posts extends Component {
           <ul>
             {posts.isLoading === true
               ? <li>Loading...</li>
-              : posts.map((post) =>
+              : posts.filter(post => !post.deleted)
+              .sort((post1, post2) => post1[posts.sortParam] > post2[posts.sortParam])
+              .map((post) =>
                 <li key={post.id}>
                   <div>
                     <ul>

@@ -15,7 +15,8 @@ import {
   FETCH_POSTS,
   DISPLAY_POSTS,
   FETCH_CATEGORIES,
-  DISPLAY_CATEGORIES
+  DISPLAY_CATEGORIES,
+  SORT_POST
 } from '../actions'
 
 function categories(
@@ -40,7 +41,8 @@ function categories(
 
 function posts (state = {
   posts: [],
-  isLoading: false
+  isLoading: false,
+  sortParam: 'timestamp'
 }, action) {
   const { id, timestamp, title, body, author, category, deleted } = action
     switch(action.type) {
@@ -63,9 +65,9 @@ function posts (state = {
           ]
 
         case DISPLAY_POSTS:
-          return {
-            posts: action.posts
-          }
+          return Object.assign({}, state, {
+            posts: action.posts,
+          });
 
         case UPDATE_POST:
           return {
@@ -82,6 +84,11 @@ function posts (state = {
             ...state,
             [posts]: action.posts.filter(post => post.deleted !== true)
           }
+
+        case SORT_POST:
+          return Object.assign({}, state, {
+            sortParam: action.param
+          });
 
         default :
             return state

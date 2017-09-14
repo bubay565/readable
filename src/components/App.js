@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../index.css';
 import { connect } from 'react-redux'
-import { getCategories, getPosts } from '../actions'
+import { getCategories, getPosts, sortPostsBy } from '../actions'
 import Banner from './Banner'
 import Categories from './Categories'
 import Posts from './Posts'
@@ -12,8 +12,8 @@ class App extends Component {
     this.props.dispatch(getPosts())
   }
 
-  sortPostsBy = (value) => {
-    this.props.posts.sort((post1, post2) => post1[value] > post2[value])
+  sortPostsBy = (param) => {
+    this.props.dispatch(sortPostsBy(param))
   }
 
   render() {
@@ -24,7 +24,7 @@ class App extends Component {
         <Banner />
         <div className="main">
           <Categories categories={categories}/>
-          <Posts posts={posts} />
+          <Posts posts={posts} sortPostsBy={this.sortPostsBy}/>
         </div>
       </div>
     );

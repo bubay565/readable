@@ -19,7 +19,6 @@ export const DISPLAY_CATEGORIES = 'DISPLAY_CATEGORIES'
 export const SORT_POST = 'SORT_POST'
 
 export function sortPostsBy(sortParam){
-  console.log('param', sortParam)
     return {
       type: SORT_POST,
       sortParam
@@ -43,7 +42,6 @@ export function fetchCategories(){
 }
 
 export function displayCategories(categories){
-  console.log('action', categories)
   return {
     type: DISPLAY_CATEGORIES,
     categories

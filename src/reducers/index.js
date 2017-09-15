@@ -87,7 +87,7 @@ function posts (state = {
 
         case SORT_POST:
           return Object.assign({}, state, {
-            sortParam: action.param
+            sortParam: action.sortParam
           });
 
         default :

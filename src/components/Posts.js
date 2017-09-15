@@ -3,8 +3,9 @@ import React, { Component } from 'react'
 class Posts extends Component {
 
   render(){
-    const posts = this.props.posts
+    const posts = this.props.posts.posts
     const sortPostsBy = this.props.sortPostsBy
+    let sortParam = this.props.posts.sortParam
     return (
       <div className="posts">
         <h2>Posts</h2>
@@ -28,7 +29,9 @@ class Posts extends Component {
             {posts.isLoading === true
               ? <li>Loading...</li>
               : posts.filter(post => !post.deleted)
-              .sort((post1, post2) => post1[posts.sortParam] > post2[posts.sortParam])
+              .sort((post1, post2) => {
+                return post1[sortParam] < post2[sortParam] ? -1 : 1;
+              })
               .map((post) =>
                 <li key={post.id}>
                   <div>

@@ -17,7 +17,7 @@ class App extends Component {
   }
 
   render() {
-    const { categories, posts, comments } = this.props
+    const { categories, posts } = this.props
     return (
       <div className="container">
         {console.log('properties', this.props)}
@@ -31,10 +31,10 @@ class App extends Component {
   }
 }
 
-function  mapStateToProps({ categories, posts}) {
+function  mapStateToProps({ categories, posts }) {
   return {
     categories: categories.categories,
-    posts: posts.posts
+    posts: posts
   }
 }
 

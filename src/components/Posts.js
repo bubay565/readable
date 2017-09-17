@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 class Posts extends Component {
 
@@ -10,10 +11,10 @@ class Posts extends Component {
       <div className="posts">
         <h2>Posts</h2>
         <div className="post-headers">
-          <button className='new-post'>
+          <Link to="/new-post" className='new-post'>
               New Post
-          </button>
-          <select onChange={(e) => {sortPostsBy(e.target.value)}}>
+          </Link>
+          <select onChange={(event) => {sortPostsBy(event.target.value)}}>
             <option value="timestamp">Most Recent</option>
             <option value="voteScore">Highest Votes</option>
           </select>
@@ -36,7 +37,7 @@ class Posts extends Component {
                 <li key={post.id}>
                   <div>
                     <ul>
-                      <li className="posts-summary"><a href="abc">{post.title}</a></li>
+                      <li className="posts-summary"><Link to={post.title}>{post.title}</Link></li>
                       <li className="posts-summary">{post.author}</li>
                       <li className="posts-summary">{post.voteScore}</li>
                       <li className="posts-summary">{post.comments.length}</li>

@@ -61,3 +61,50 @@ body {
   display: inline;
   margin: 1.5em;
 }
+
+form {
+  margin-bottom: 22px;
+  width: 80%;
+}
+
+input,
+select,
+textarea {
+  font: 300 16px/22px "Lato", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.newpost label {
+  color: #648880;
+  cursor: pointer;
+  font-weight: 400;
+}
+.newpost input,
+.newpost select,
+.newpost textarea {
+  border: 1px solid #c6c9cc;
+  border-radius: 5px;
+  color: #888;
+  display: block;
+  margin: 5px 0 27px 0;
+  padding: 5px 8px;
+}
+.newpost input,
+.newpost textarea {
+  width: 97%;
+}
+.newpost select {
+  height: 34px;
+  width: 10em;
+}
+.newpost textarea {
+  height: 78px;
+}
+.btn-default {
+  border: 0;
+  background: #648880;
+  padding: 11px 30px;
+  font-size: 14px;
+}
+.btn-default:hover {
+  background: #77a198;
+}

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router'
+import { NavLink } from 'react-router-dom'
 
 export default function Categories({ categories }) {
   console.log('comp', categories)
@@ -12,7 +12,7 @@ export default function Categories({ categories }) {
           ? <li>Loading...</li>
           : categories.map((category, index) =>
             <li key={index}>
-              <a href={category.path}>{category.name}</a>
+              <NavLink to={`${category.path}/posts`}>{category.name}</NavLink>
             </li>
           )
         }

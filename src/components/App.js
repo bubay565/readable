@@ -20,6 +20,7 @@ class App extends Component {
   }
 
   createPost = (values) => {
+    console.log('form values', JSON.stringify(values));
     this.props.dispatch(createPost(values))
   }
 
@@ -41,7 +42,7 @@ class App extends Component {
 
           <Route exact path="/:category/posts" component={Category}/>
           <Route exact path="/new-post" render={({ history }) => (
-            <NewPost onCreatePost={values =>{
+            <NewPost onCreatePost={values => {
               this.createPost(values)
               history.push('/')
             }}/>

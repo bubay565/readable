@@ -101,6 +101,7 @@ export function fetchComments(){
 export function createPost({
   id, timestamp, title, body, author, category, voteScore = 1, deleted = false
 }) {
+  console.log('got here')
   return {
     type: CREATE_POST,
     id,

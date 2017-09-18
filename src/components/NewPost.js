@@ -2,11 +2,13 @@ import React, { Component } from 'react'
 import serializeForm from 'form-serialize'
 
 class NewPost extends Component {
-  handleSubmit(event){
+
+  handleSubmit = (event) => {
       event.preventDefault();
       const values = serializeForm(event.target, {hash:true});
       values.timestamp = Date.now();
-      values.id = this.generatePostId;
+      values.id = this.generatePostId();
+      console.log('values', JSON.stringify(values))
       this.props.onCreatePost(values);
   }
 
@@ -17,6 +19,7 @@ class NewPost extends Component {
   }
 
   render(){
+    console.log('this', this)
     return (
       <div className="posts">
         <h2>Create a Post</h2>

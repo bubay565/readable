@@ -44,25 +44,27 @@ function posts (state = {
   isLoading: false,
   sortParam: 'timestamp'
 }, action) {
-  const { id, timestamp, title, body, author, category, deleted } = action
+  const { id, timestamp, title, body, author, category, voteScore, deleted } = action
     switch(action.type) {
         case FETCH_POSTS:
           return Object.assign({}, state, {
             isLoading: true
           });
         case CREATE_POST:
-          return [
-            ...state,
-            {
+        console.log('current state', state);
+          return Object.assign({}, state, {
+            posts: state.posts.concat({
               id,
               timestamp,
               title,
               body,
               author,
               category,
+              voteScore,
               deleted
-            }
-          ]
+            })
+          });
+
 
         case DISPLAY_POSTS:
           return Object.assign({}, state, {

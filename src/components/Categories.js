@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const Categories = ({ categories }) => {
   console.log('comp', categories)
@@ -8,12 +8,12 @@ const Categories = ({ categories }) => {
     <div className="categories">
       <h2>Categories</h2>
       <ul>
-        <li><NavLink to="/">All</NavLink></li>
+        <li><Link to="/">All</Link></li>
         {categories.isLoading === true
           ? <li>Loading...</li>
           : categories.map((category, index) =>
             <li key={index}>
-              <NavLink to={`/${category.path}/posts`}>{category.name}</NavLink>
+              <Link to={`/${category.path}/posts`}>{category.name}</Link>
             </li>
           )
         }

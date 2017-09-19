@@ -4,7 +4,7 @@ import { Route, withRouter } from 'react-router-dom'
 import { getCategories, getPosts, sortPostsBy, createPost } from '../actions'
 import Banner from './Banner'
 import Categories from './Categories'
-import Category from './Category'
+import PostDetail from './PostDetail'
 import Posts from './Posts'
 import NewPost from './NewPost'
 import '../index.css';
@@ -20,7 +20,6 @@ class App extends Component {
   }
 
   createPost = (values) => {
-    console.log('form values', JSON.stringify(values));
     this.props.dispatch(createPost(values))
   }
 
@@ -35,17 +34,33 @@ class App extends Component {
           <Categories categories={categories}/>
           <Route exact path="/" render={() => (
             <Posts
-              posts={posts}
+              posts={posts.posts}
               sortPostsBy={this.sortPostsBy}
+              sortParam={posts.sortParam}
             />
           )}/>
 
-          <Route exact path="/:category/posts" component={Category}/>
+          <Route exact path="/:category/posts" render={({ match }) => (
+            <Posts
+              posts={posts.posts.filter(post => post.category === match.params.category)}
+              sortPostsBy={this.sortPostsBy}
+              sortParam={posts.sortParam}
+            />
+          )}/>
+
           <Route exact path="/new-post" render={({ history }) => (
-            <NewPost onCreatePost={values => {
-              this.createPost(values)
-              history.push('/')
-            }}/>
+            <NewPost
+              onCreatePost={values => {
+                this.createPost(values)
+                history.push('/')
+              }
+            }/>
+          )}/>
+
+          <Route exact path="/post/:title" render={({ match }) => (
+            <PostDetail
+              post={posts.posts.filter(post => post.id === match.params.id)}
+            />
           )}/>
         </div>
       </div>

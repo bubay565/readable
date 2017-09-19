@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom'
 class Posts extends Component {
 
   render(){
-    const posts = this.props.posts.posts
+    const posts = this.props.posts
     const sortPostsBy = this.props.sortPostsBy
-    let sortParam = this.props.posts.sortParam
+    let sortParam = this.props.sortParam
     return (
       <div className="posts">
         <h2>Posts</h2>
@@ -31,13 +31,13 @@ class Posts extends Component {
               ? <li>Loading...</li>
               : posts.filter(post => !post.deleted)
               .sort((post1, post2) => {
-                return post1[sortParam] < post2[sortParam] ? -1 : 1;
+                return post1[sortParam] > post2[sortParam] ? -1 : 1;
               })
               .map((post) =>
                 <li key={post.id}>
                   <div>
                     <ul>
-                      <li className="posts-summary"><Link to={post.title}>{post.title}</Link></li>
+                      <li className="posts-summary"><Link to={`/${post.title}`}>{post.title}</Link></li>
                       <li className="posts-summary">{post.author}</li>
                       <li className="posts-summary">{post.voteScore}</li>
                       <li className="posts-summary">{post.comments.length}</li>

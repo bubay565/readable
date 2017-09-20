@@ -37,7 +37,7 @@ class Posts extends Component {
                 <li key={post.id}>
                   <div>
                     <ul>
-                      <li className="posts-summary"><Link to={`/${post.title}`}>{post.title}</Link></li>
+                      <li className="posts-summary"><Link to={`/${post.category}/${post.id}/${post.title}`}>{post.title}</Link></li>
                       <li className="posts-summary">{post.author}</li>
                       <li className="posts-summary">{post.voteScore}</li>
                       <li className="posts-summary">{post.comments.length}</li>

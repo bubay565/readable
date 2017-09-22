@@ -30,9 +30,9 @@ class Posts extends Component {
             {posts.isLoading === true
               ? <li>Loading...</li>
               : posts.filter(post => !post.deleted)
-              .sort((post1, post2) => {
-                return post1[sortParam] > post2[sortParam] ? -1 : 1;
-              })
+              .sort((post1, post2) =>
+                 post2[sortParam] - post1[sortParam]
+              )
               .map((post) =>
                 <li key={post.id}>
                   <div>

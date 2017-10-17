@@ -94,7 +94,7 @@ export function votePost(id, option){
 }
 
 export function upVotePost(voteScore){
-  console.log('upvote post with score', voteScore)
+  console.log('upvote post', voteScore)
   return {
     type: UPVOTE_POST,
     voteScore

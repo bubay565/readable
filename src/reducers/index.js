@@ -93,12 +93,7 @@ function posts (state = {
         console.log('reducer', action.voteScore)
           return {
             ...state,
-            posts: state.posts.map((post) => {
-              if(post[id] === id){
-                post[voteScore] = voteScore
-              }
-              
-            })
+            posts: [...state.posts.filter(item=> item.id !== action.post), action.post]
           }
         default :
             return state

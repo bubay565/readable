@@ -93,7 +93,7 @@ function posts (state = {
         console.log('reducer', action.voteScore)
           return {
             ...state,
-            posts: [...state.posts.filter(item=> item.id !== action.post), action.post]
+            posts: [...state.posts.filter(item=> item.id !== action.post.id), action.post]
           }
         default :
             return state

@@ -88,16 +88,15 @@ export function votePost(id, option){
     .then(res => {
       console.log('votepost result', res)
       console.log('new voteScore', res.voteScore)
-      dispatch(upVotePost(res.voteScore))
+      dispatch(upVotePost(res))
     });
   }
 }
 
-export function upVotePost(voteScore){
-  console.log('upvote post', voteScore)
+export function upVotePost(post){
+  console.log('upvote post', post)
   return {
-    type: UPVOTE_POST,
-    voteScore
+    type: UPVOTE_POST
   }
 }
 

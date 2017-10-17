@@ -8,7 +8,6 @@ class NewPost extends Component {
       const values = serializeForm(event.target, {hash:true});
       values.timestamp = Date.now();
       values.id = this.generatePostId();
-      console.log('values', JSON.stringify(values))
       this.props.onCreatePost(values);
   }
 

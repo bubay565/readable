@@ -81,14 +81,23 @@ export function displayPosts(posts){
   }
 }
 
-export function getComments(id){
-  console.log('id', id);
-  return dispatch => {
-    dispatch(fetchComments())
-    return ReadableAPI.getPostComments(id)
-    .then(comments => {
-      dispatch(displayComments(comments));
+export function votePost(id, option){
+  console.log('votePost', id, option)
+  return (dispatch) => {
+    return ReadableAPI.votePost(id, option)
+    .then(res => {
+      console.log('votepost result', res)
+      console.log('new voteScore', res.voteScore)
+      dispatch(upVotePost(res.voteScore))
     });
+  }
+}
+
+export function upVotePost(voteScore){
+  console.log('upvote post with score', voteScore)
+  return {
+    type: UPVOTE_POST,
+    voteScore
   }
 }
 
@@ -154,11 +163,7 @@ export function deleteComment({id}){
   }
 }
 
-export function upvotePost(){
-  return {
-    type: UPVOTE_POST
-  }
-}
+
 
 export function downvotePost() {
   return {
@@ -166,9 +171,11 @@ export function downvotePost() {
   }
 }
 
-export function upvoteComment(){
+export function upvoteComment({id}){
+  console.log('comment id', id)
   return {
-    type: UPVOTE_COMMENT
+    type: UPVOTE_COMMENT,
+    id
   }
 }
 

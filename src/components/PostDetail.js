@@ -1,18 +1,26 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { votePost } from '../actions'
 
 
 class PostDetail extends Component {
+  votePost = (id, option) => {
+    this.props.dispatch(votePost(id, option))
+  }
 
   render(){
-    console.log('post props', this.props)
-    const post = this.props.post[0]
+    console.log('post detail props', this.props)
+    const post = this.props.posts[0]
+    if (!post) {
+      return <div>Loading...</div>
+    }
     return (
       <div className="posts">
         <h2>Post Detail</h2>
         <div>
           <p>Title: {post.title}</p>
           <p>{post.body}</p>
-          <p>Vote score: {post.voteScore} <button>Vote Up</button> <button>Vote Down</button> <button>Edit Post</button> <button>Delete Post</button></p>
+          <p>Vote score: {post.voteScore} <button onClick={() => this.votePost(post.id, 'upVote')}>Vote Up</button> <button>Vote Down</button> <button>Edit Post</button> <button>Delete Post</button></p>
           <div>
             <h2>Comments</h2>
             {post.comments.length > 0
@@ -39,5 +47,12 @@ class PostDetail extends Component {
 
 }
 
+function mapStateToProps(state, match){
+  console.log('post detail state', state)
+  console.log('post detail match', match)
+  return {
+    posts: state.posts.posts.filter(post => post.id === match.match.params.id)
+  }
+}
 
-export default PostDetail
+export default connect(mapStateToProps)(PostDetail);

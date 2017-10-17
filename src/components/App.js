@@ -57,11 +57,7 @@ class App extends Component {
             }/>
           )}/>
 
-          <Route exact path="/:category/:id/:title" render={({ match }) => (
-            <PostDetail
-              post={posts.posts.filter(post => post.id === match.params.id)}
-            />
-          )}/>
+          <Route exact path="/:category/:id/:title" component={PostDetail}/>
         </div>
       </div>
     );

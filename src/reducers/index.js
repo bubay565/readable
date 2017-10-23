@@ -9,7 +9,9 @@ import {
   FETCH_CATEGORIES,
   DISPLAY_CATEGORIES,
   SORT_POST,
-  UPVOTE_POST
+  UPDATE_POST_VOTE,
+  UPDATE_COMMENT_VOTE,
+  CREATE_COMMENT
 } from '../actions'
 
 function categories(
@@ -51,10 +53,9 @@ function posts (state = {
           }
 
         case CREATE_POST:
-        console.log('current state', state);
           return {
             ...state,
-            posts: state.posts.concat({
+            posts: [...state.posts, {
               id,
               timestamp,
               title,
@@ -63,7 +64,7 @@ function posts (state = {
               category,
               voteScore,
               deleted
-            })
+            }]
           }
 
         case DISPLAY_POSTS:
@@ -80,7 +81,7 @@ function posts (state = {
         case DELETE_POST:
           return {
             ...state,
-            posts: action.posts
+            posts: state.posts.filter(post => post.id !== action.id)
           }
 
         case SORT_POST:
@@ -89,12 +90,41 @@ function posts (state = {
             sortParam: action.sortParam
           }
 
-        case UPVOTE_POST:
-        console.log('reducer', action.voteScore)
+        case UPDATE_POST_VOTE:
           return {
             ...state,
-            posts: [...state.posts.filter(item=> item.id !== action.post.id), action.post]
+            posts: state.posts.map((post) => {
+                    if(post.id === id){
+                      post.voteScore = voteScore
+                    }
+                    return post
+                  })
+            }
+        case UPDATE_COMMENT_VOTE:
+          return {
+            ...state,
+            posts: state.posts.map((post) => {
+                      if(post.id === action.parentId){
+                        post.comments.map((comment) => {
+                          if(comment.id === action.id){
+                            comment.voteScore = action.voteScore
+                          } return comment
+                        })
+                      } return post
+                    })
           }
+
+        case CREATE_COMMENT:
+          return {
+            ...state,
+            posts: state.posts.map((post) => {
+              if(post.id === action.comment.parentId){
+                post.comments = [...post.comments, action.comment]
+              }
+              return post
+            })
+          }
+
         default :
             return state
     }

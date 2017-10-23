@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
 const Categories = ({ categories }) => {
-  console.log('comp', categories)
   return (
     <div className="categories">
       <h2>Categories</h2>

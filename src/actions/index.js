@@ -10,10 +10,8 @@ export const CREATE_COMMENT = 'CREATE_COMMENT'
 export const DISPLAY_COMMENT = 'DISPLAY_COMMENT'
 export const UPDATE_COMMENT = 'UPDATE_COMMENT'
 export const DELETE_COMMENT = 'DELETE_COMMENT'
-export const UPVOTE_POST = 'UPVOTE_POST'
-export const DOWNVOTE_POST = 'DOWNVOTE_POST'
-export const UPVOTE_COMMENT = 'UPVOTE_COMMENT'
-export const DOWNVOTE_COMMENT = 'DOWNVOTE_COMMENT'
+export const UPDATE_POST_VOTE = 'UPDATE_POST_VOTE'
+export const UPDATE_COMMENT_VOTE = 'UPDATE_COMMENT_VOTE'
 export const FETCH_CATEGORIES = 'FETCH_CATEGORIES'
 export const DISPLAY_CATEGORIES = 'DISPLAY_CATEGORIES'
 export const SORT_POST = 'SORT_POST'
@@ -82,21 +80,37 @@ export function displayPosts(posts){
 }
 
 export function votePost(id, option){
-  console.log('votePost', id, option)
   return (dispatch) => {
     return ReadableAPI.votePost(id, option)
     .then(res => {
-      console.log('votepost result', res)
-      console.log('new voteScore', res.voteScore)
-      dispatch(upVotePost(res))
+      dispatch(updatePostVote(res.id, res.voteScore))
     });
   }
 }
 
-export function upVotePost(post){
-  console.log('upvote post', post)
+export function updatePostVote(id, voteScore){
   return {
-    type: UPVOTE_POST
+    type: UPDATE_POST_VOTE,
+    id,
+    voteScore
+  }
+}
+
+export function voteComment(id, option){
+  return (dispatch) => {
+    return ReadableAPI.voteComment(id, option)
+    .then(res => {
+      dispatch(updateCommentVote(res.id, res.voteScore, res.parentId))
+    });
+  }
+}
+
+export function updateCommentVote(id, voteScore, parentId){
+  return {
+    type: UPDATE_COMMENT_VOTE,
+    id,
+    voteScore,
+    parentId
   }
 }
 
@@ -109,12 +123,20 @@ export function fetchComments(){
 export function createPost({
   id, timestamp, title, body, author, category, voteScore = 1, deleted = false
 }) {
-  console.log('got here')
   return dispatch => {
     return ReadableAPI.createPost(id, timestamp, title, body, author, category)
     .then(
       dispatch(getPosts())
     );
+  }
+}
+
+export function editPost(id){
+  return dispatch => {
+    return ReadableAPI.getSinglePost(id)
+    .then(res =>{
+
+    })
   }
 }
 
@@ -129,18 +151,40 @@ export function updatePost({id, timestamp, title, body, category}) {
   }
 }
 
-export function deletePost({id}){
+export function deletePost(id){
+  console.log('delete', id)
+  return dispatch => {
+    return ReadableAPI.deletePost(id)
+    .then(res => {
+      console.log('delete response', res)
+      dispatch(removeDeletedPost(id))
+    })
+  }
+}
+
+export function removeDeletedPost(id){
   return {
     type: DELETE_POST,
     id
   }
 }
 
-export function createComment(){
-    return {
-      type: CREATE_COMMENT
+export function createComment({parentId, id, author, body, timestamp}){
+    return dispatch => {
+      return ReadableAPI.createComment(id, timestamp, body, author, parentId)
+        .then(res => {
+          console.log('comment', res)
+          dispatch(addNewComment(res))
+        });
     }
   }
+
+export function addNewComment(comment){
+  return {
+    type: CREATE_COMMENT,
+    comment
+  }
+}
 
 export function displayComments(comments){
   return {
@@ -156,30 +200,12 @@ export function updateComment(){
 }
 
 export function deleteComment({id}){
-  return {
-    type: DELETE_COMMENT,
-    id
-  }
-}
-
-
-
-export function downvotePost() {
-  return {
-    type: DOWNVOTE_POST
-  }
-}
-
-export function upvoteComment({id}){
-  console.log('comment id', id)
-  return {
-    type: UPVOTE_COMMENT,
-    id
-  }
-}
-
-export function downvoteComment() {
-  return {
-    type: DOWNVOTE_COMMENT
+  return dispatch => {
+    return ReadableAPI.deletePost(id)
+    .then(res => {
+      console.log('delete', res)
+    })
+    //type: DELETE_COMMENT,
+    //id
   }
 }

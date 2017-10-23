@@ -1,11 +1,28 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { votePost } from '../actions'
-
+import { votePost, voteComment, deletePost, createComment, editPost, editComment } from '../actions'
+import Comments from './Comments'
 
 class PostDetail extends Component {
   votePost = (id, option) => {
     this.props.dispatch(votePost(id, option))
+  }
+
+  voteComment = (id, option) => {
+    this.props.dispatch(voteComment(id, option))
+  }
+
+  deletePost = (id) => {
+    this.props.dispatch(deletePost(id))
+  }
+
+
+  createComment = (values) => {
+    this.props.dispatch(createComment(values))
+  }
+
+  editPost = (id) => {
+    this.props.dispatch(editPost(id))
   }
 
   render(){
@@ -20,7 +37,12 @@ class PostDetail extends Component {
         <div>
           <p>Title: {post.title}</p>
           <p>{post.body}</p>
-          <p>Vote score: {post.voteScore} <button onClick={() => this.votePost(post.id, 'upVote')}>Vote Up</button> <button>Vote Down</button> <button>Edit Post</button> <button>Delete Post</button></p>
+          <p>Vote score: {post.voteScore}
+              <button onClick={() => this.votePost(post.id, 'upVote')}>Vote Up</button>
+              <button onClick={() => this.votePost(post.id, 'downVote')}>Vote Down</button>
+              <button onClick={() => this.editPost(post.id)}>Edit Post</button>
+              <button onClick={() => this.deletePost(post.id)}>Delete Post</button>
+          </p>
           <div>
             <h2>Comments</h2>
             {post.comments.length > 0
@@ -32,7 +54,12 @@ class PostDetail extends Component {
                       <li className="posts-summary">{comment.body}</li>
                       <li className="posts-summary">{comment.timestamp}</li>
                       <li className="posts-summary">{comment.voteScore}</li>
-                      <li className="posts-summary"><button>Vote Up</button> <button>Vote Down</button> <button>Edit Comment</button> <button>Delete Comment</button></li>
+                      <li className="posts-summary">
+                        <button onClick={() => this.voteComment(comment.id, 'upVote')}>Vote Up</button>
+                        <button onClick={() => this.voteComment(comment.id, 'downVote')}>Vote Down</button>
+                        <button>Edit Comment</button>
+                        <button>Delete Comment</button>
+                      </li>
                     </ul>
                   </div>
                 </li>
@@ -40,6 +67,12 @@ class PostDetail extends Component {
             : <p>There are no comments for this post! Be the first to comment.</p>
             }
           </div>
+          <Comments
+            parentId={post.id}
+            onCreateComment={values => {
+              this.createComment(values)
+            }}
+          />
         </div>
       </div>
     )

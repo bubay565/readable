@@ -64,9 +64,11 @@ export const editPost = (id,title, body) =>
 export const deletePost = (id) =>
   fetch(`${api}/posts/${id}`, {
     method: 'DELETE',
-    headers
-  }).then(res => res.json())
-    .then(data => data)
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    }
+  }).then()
 
 export const getPostComments = (id) =>
   fetch(`${api}/posts/${id}/comments`, { headers })
@@ -111,6 +113,9 @@ fetch(`${api}/comments/${id}`, {
 export const deleteComment = (id) =>
   fetch(`${api}/comments/${id}`, {
     method: 'DELETE',
-    headers
+    headers : {
+      ...headers,
+      'Content-Type': 'application/json'
+    }
   }).then(res => res.json())
     .then(data => data)

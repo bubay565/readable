@@ -57,7 +57,7 @@ class App extends Component {
             }/>
           )}/>
 
-          <Route exact path="/:category/:id/:title" component={PostDetail}/>
+          <Route exact path="/:category/:id/:title" component={PostDetail} history={'/'}/>
         </div>
       </div>
     );

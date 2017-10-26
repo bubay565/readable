@@ -114,12 +114,6 @@ export function updateCommentVote(id, voteScore, parentId){
   }
 }
 
-export function fetchComments(){
-  return {
-    type: FETCH_COMMENTS
-  }
-}
-
 export function createPost({
   id, timestamp, title, body, author, category, voteScore = 1, deleted = false
 }) {

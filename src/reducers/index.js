@@ -42,7 +42,9 @@ function categories(
 function posts (state = {
   posts: [],
   isLoading: false,
-  sortParam: 'timestamp'
+  sortParam: 'timestamp',
+  editPost: false,
+  editComment: false
 }, action) {
   const { id, timestamp, title, body, author, category, voteScore, deleted } = action
     switch(action.type) {
@@ -123,6 +125,18 @@ function posts (state = {
               }
               return post
             })
+          }
+
+        case SET_COMMENT_TO_EDIT:
+          return{
+            ...state,
+            editComment: true,
+            posts: state.posts.map((post) => {
+                      if(post.id === action.parentId){
+                        post.comments.filter(comment => comment.id === action.id)
+                        }
+                      } return post
+                    )
           }
 
         default :

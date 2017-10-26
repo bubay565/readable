@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { votePost, voteComment, deletePost, createComment, editPost, editComment } from '../actions'
+import { votePost, voteComment, deletePost, createComment, editPost, setCommentToEditComment } from '../actions'
 import Comments from './Comments'
 
 class PostDetail extends Component {
@@ -16,13 +16,16 @@ class PostDetail extends Component {
     this.props.dispatch(deletePost(id))
   }
 
-
   createComment = (values) => {
     this.props.dispatch(createComment(values))
   }
 
   editPost = (id) => {
     this.props.dispatch(editPost(id))
+  }
+
+  setCommentToEdit = (id) => {
+    this.props.dispatch(setCommentToEdit(id))
   }
 
   render(){
@@ -57,7 +60,7 @@ class PostDetail extends Component {
                       <li className="posts-summary">
                         <button onClick={() => this.voteComment(comment.id, 'upVote')}>Vote Up</button>
                         <button onClick={() => this.voteComment(comment.id, 'downVote')}>Vote Down</button>
-                        <button>Edit Comment</button>
+                        <button onClick={() => this.setCommentToEdit(comment.id, post.id)}>Edit Comment</button>
                         <button>Delete Comment</button>
                       </li>
                     </ul>
@@ -67,12 +70,21 @@ class PostDetail extends Component {
             : <p>There are no comments for this post! Be the first to comment.</p>
             }
           </div>
-          <Comments
-            parentId={post.id}
-            onCreateComment={values => {
-              this.createComment(values)
-            }}
-          />
+          {this.props.setCommentToEdit === true
+            ? <EditComment
+                id={}
+                comment={}
+                onEditComment={values => {
+                  this.editComment(values)
+                }}
+              />
+            : <Comments
+                parentId={post.id}
+                onCreateComment={values => {
+                  this.createComment(values)
+                }}
+              />
+          }
         </div>
       </div>
     )
@@ -84,7 +96,9 @@ function mapStateToProps(state, match){
   console.log('post detail state', state)
   console.log('post detail match', match)
   return {
-    posts: state.posts.posts.filter(post => post.id === match.match.params.id)
+    posts: state.posts.posts.filter(post => post.id === match.match.params.id),
+    setCommentToEdit,
+    setPostToEdit
   }
 }
 

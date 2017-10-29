@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { votePost, voteComment, deletePost, createComment, editPost, setCommentToEdit } from '../actions'
+import { votePost, voteComment, deletePost, createComment, editPost, setCommentToEdit, updateComment } from '../actions'
 import Comments from './Comments'
 import EditComment from './EditComment'
 
 class PostDetail extends Component {
+
   votePost = (id, option) => {
     this.props.dispatch(votePost(id, option))
   }
@@ -25,8 +26,12 @@ class PostDetail extends Component {
     this.props.dispatch(editPost(id))
   }
 
-  setCommentToEdit = (id) => {
-    this.props.dispatch(setCommentToEdit(id))
+  setCommentToEdit = (id, parentId) => {
+    this.props.dispatch(setCommentToEdit(id, parentId))
+  }
+
+  updateComment = (values) => {
+    this.props.dispatch(updateComment(values))
   }
 
   render(){
@@ -49,17 +54,7 @@ class PostDetail extends Component {
           </p>
           <div>
             <h2>Comments</h2>
-            {this.props.editComment === true
-            ?
-              <EditComment
-                id={post.comment.id}
-                comment={post.comment.body}
-                onEditComment={values => {
-                  this.editComment(values)
-                }}
-              />
-            :
-              post.comments.length > 0
+            {post.comments.length > 0
               ? post.comments.map(comment =>
                   <li className="posts-summary" key={comment.id}>
                     <div>
@@ -79,14 +74,24 @@ class PostDetail extends Component {
                   </li>
                 )
               : <p>There are no comments for this post! Be the first to comment.</p>
-
             }
-            <Comments
-              parentId={post.id}
-              onCreateComment={values => {
-                this.createComment(values)
-              }}
-            />
+
+            {this.props.editComment === true
+            ?
+              <EditComment
+                comment={post.comments.filter(comment => comment.id === this.props.commentToEditId)}
+                onEditComment={values => {
+                  this.updateComment(values)
+                }}
+              />
+            :
+              <Comments
+                parentId={post.id}
+                onCreateComment={values => {
+                  this.createComment(values)
+                }}
+              />
+            }
           </div>
         </div>
       </div>
@@ -100,8 +105,10 @@ function mapStateToProps(state, match){
   console.log('post detail match', match)
   return {
     posts: state.posts.posts.filter(post => post.id === match.match.params.id),
-    editComment: state.editComment,
-    editPost: state.editPost
+    editComment: state.posts.editComment,
+    editPost: state.posts.editPost,
+    postToEditId: state.posts.postToEditId,
+    commentToEditId: state.posts.commentToEditId
   }
 }
 

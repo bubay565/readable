@@ -151,7 +151,6 @@ export function deletePost(id){
   return dispatch => {
     return ReadableAPI.deletePost(id)
     .then(res => {
-      console.log('delete response', res)
       dispatch(removeDeletedPost(id))
     })
   }
@@ -168,7 +167,6 @@ export function createComment({parentId, id, author, body, timestamp}){
     return dispatch => {
       return ReadableAPI.createComment(id, timestamp, body, author, parentId)
         .then(res => {
-          console.log('comment', res)
           dispatch(addNewComment(res))
         });
     }
@@ -196,9 +194,20 @@ export function setCommentToEdit(id, parentId){
   }
 }
 
-export function updateComment(){
+export function updateComment({id, timestamp, body}){
+  console.log('updateComment', id, timestamp, body)
+  return dispatch => {
+    return ReadableAPI.editComment(id, timestamp, body)
+      .then(res => {
+        dispatch(commentUpdated(res))
+      })
+  }
+}
+
+export function commentUpdated(comment){
   return {
-    type: UPDATE_COMMENT
+    type: UPDATE_COMMENT,
+    comment
   }
 }
 

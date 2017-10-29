@@ -12,7 +12,8 @@ import {
   UPDATE_POST_VOTE,
   UPDATE_COMMENT_VOTE,
   CREATE_COMMENT,
-  SET_COMMENT_TO_EDIT
+  SET_COMMENT_TO_EDIT,
+  UPDATE_COMMENT
 } from '../actions'
 
 function categories(
@@ -45,7 +46,9 @@ function posts (state = {
   isLoading: false,
   sortParam: 'timestamp',
   editPost: false,
-  editComment: false
+  postToEditId: '',
+  editComment: false,
+  commentToEditId: ''
 }, action) {
   const { id, timestamp, title, body, author, category, voteScore, deleted } = action
     switch(action.type) {
@@ -151,11 +154,28 @@ function posts (state = {
             ...state,
             editComment: true,
             editPost: false,
+            posts: state.posts,
+            commentToEditId: action.id,
+            postToEditId: action.parentId
+          }
+
+        case UPDATE_COMMENT:
+          return {
+            ...state,
+            editComment: false,
+            editPost: false,
+            commentToEditId: '',
+            postToEditId: '',
             posts: state.posts.map((post) => {
-                      if(post.id === action.parentId){
-                        post.comments.filter(comment => comment.id === action.id)
+                      if(post.id === action.comment.parentId){
+                        post.comments.map((comment) => {
+                          if(comment.id === action.comment.id){
+                            comment.body = action.comment.body
+                            comment.timestamp = action.comment.timestamp
+                          } return comment
+                        })
                       } return post
-                  })
+                    })
           }
 
         default :

@@ -11,7 +11,8 @@ import {
   SORT_POST,
   UPDATE_POST_VOTE,
   UPDATE_COMMENT_VOTE,
-  CREATE_COMMENT
+  CREATE_COMMENT,
+  SET_COMMENT_TO_EDIT
 } from '../actions'
 
 function categories(
@@ -51,12 +52,16 @@ function posts (state = {
         case FETCH_POSTS:
           return {
             ...state,
-            isLoading: true
+            isLoading: true,
+            editPost: false,
+            editComment: false,
           }
 
         case CREATE_POST:
           return {
             ...state,
+            editPost: false,
+            editComment: false,
             posts: [...state.posts, {
               id,
               timestamp,
@@ -72,29 +77,39 @@ function posts (state = {
         case DISPLAY_POSTS:
           return {
               ...state,
+              editPost: false,
+              editComment: false,
               posts: action.posts
           }
 
         case UPDATE_POST:
           return {
             ...state,
+            editPost: false,
+            editComment: false,
           }
 
         case DELETE_POST:
           return {
             ...state,
+            editPost: false,
+            editComment: false,
             posts: state.posts.filter(post => post.id !== action.id)
           }
 
         case SORT_POST:
           return {
             ...state,
+            editPost: false,
+            editComment: false,
             sortParam: action.sortParam
           }
 
         case UPDATE_POST_VOTE:
           return {
             ...state,
+            editPost: false,
+            editComment: false,
             posts: state.posts.map((post) => {
                     if(post.id === id){
                       post.voteScore = voteScore
@@ -105,6 +120,8 @@ function posts (state = {
         case UPDATE_COMMENT_VOTE:
           return {
             ...state,
+            editPost: false,
+            editComment: false,
             posts: state.posts.map((post) => {
                       if(post.id === action.parentId){
                         post.comments.map((comment) => {
@@ -119,6 +136,8 @@ function posts (state = {
         case CREATE_COMMENT:
           return {
             ...state,
+            editPost: false,
+            editComment: false,
             posts: state.posts.map((post) => {
               if(post.id === action.comment.parentId){
                 post.comments = [...post.comments, action.comment]
@@ -128,15 +147,15 @@ function posts (state = {
           }
 
         case SET_COMMENT_TO_EDIT:
-          return{
+          return {
             ...state,
             editComment: true,
+            editPost: false,
             posts: state.posts.map((post) => {
                       if(post.id === action.parentId){
                         post.comments.filter(comment => comment.id === action.id)
-                        }
                       } return post
-                    )
+                  })
           }
 
         default :

@@ -10,6 +10,7 @@ export const CREATE_COMMENT = 'CREATE_COMMENT'
 export const DISPLAY_COMMENT = 'DISPLAY_COMMENT'
 export const UPDATE_COMMENT = 'UPDATE_COMMENT'
 export const DELETE_COMMENT = 'DELETE_COMMENT'
+export const SET_COMMENT_TO_EDIT = 'SET_COMMENT_TO_EDIT'
 export const UPDATE_POST_VOTE = 'UPDATE_POST_VOTE'
 export const UPDATE_COMMENT_VOTE = 'UPDATE_COMMENT_VOTE'
 export const FETCH_CATEGORIES = 'FETCH_CATEGORIES'
@@ -184,6 +185,14 @@ export function displayComments(comments){
   return {
     type: DISPLAY_COMMENT,
     comments
+  }
+}
+
+export function setCommentToEdit(id, parentId){
+  return {
+    type: SET_COMMENT_TO_EDIT,
+    id,
+    parentId
   }
 }
 

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { votePost, voteComment, deletePost, createComment, editPost, setCommentToEditComment } from '../actions'
+import { votePost, voteComment, deletePost, createComment, editPost, setCommentToEdit } from '../actions'
 import Comments from './Comments'
+import EditComment from './EditComment'
 
 class PostDetail extends Component {
   votePost = (id, option) => {
@@ -48,43 +49,45 @@ class PostDetail extends Component {
           </p>
           <div>
             <h2>Comments</h2>
-            {post.comments.length > 0
-            ? post.comments.map(comment =>
-                <li className="posts-summary" key={comment.id}>
-                  <div>
-                    <ul>
-                      <li className="posts-summary">{comment.author}</li>
-                      <li className="posts-summary">{comment.body}</li>
-                      <li className="posts-summary">{comment.timestamp}</li>
-                      <li className="posts-summary">{comment.voteScore}</li>
-                      <li className="posts-summary">
-                        <button onClick={() => this.voteComment(comment.id, 'upVote')}>Vote Up</button>
-                        <button onClick={() => this.voteComment(comment.id, 'downVote')}>Vote Down</button>
-                        <button onClick={() => this.setCommentToEdit(comment.id, post.id)}>Edit Comment</button>
-                        <button>Delete Comment</button>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-              )
-            : <p>There are no comments for this post! Be the first to comment.</p>
-            }
-          </div>
-          {this.props.setCommentToEdit === true
-            ? <EditComment
-                id={}
-                comment={}
+            {this.props.editComment === true
+            ?
+              <EditComment
+                id={post.comment.id}
+                comment={post.comment.body}
                 onEditComment={values => {
                   this.editComment(values)
                 }}
               />
-            : <Comments
-                parentId={post.id}
-                onCreateComment={values => {
-                  this.createComment(values)
-                }}
-              />
-          }
+            :
+              post.comments.length > 0
+              ? post.comments.map(comment =>
+                  <li className="posts-summary" key={comment.id}>
+                    <div>
+                      <ul>
+                        <li className="posts-summary">{comment.author}</li>
+                        <li className="posts-summary">{comment.body}</li>
+                        <li className="posts-summary">{comment.timestamp}</li>
+                        <li className="posts-summary">{comment.voteScore}</li>
+                        <li className="posts-summary">
+                          <button onClick={() => this.voteComment(comment.id, 'upVote')}>Vote Up</button>
+                          <button onClick={() => this.voteComment(comment.id, 'downVote')}>Vote Down</button>
+                          <button onClick={() => this.setCommentToEdit(comment.id, post.id)}>Edit Comment</button>
+                          <button>Delete Comment</button>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                )
+              : <p>There are no comments for this post! Be the first to comment.</p>
+
+            }
+            <Comments
+              parentId={post.id}
+              onCreateComment={values => {
+                this.createComment(values)
+              }}
+            />
+          </div>
         </div>
       </div>
     )
@@ -97,8 +100,8 @@ function mapStateToProps(state, match){
   console.log('post detail match', match)
   return {
     posts: state.posts.posts.filter(post => post.id === match.match.params.id),
-    setCommentToEdit,
-    setPostToEdit
+    editComment: state.editComment,
+    editPost: state.editPost
   }
 }
 

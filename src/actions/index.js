@@ -3,6 +3,7 @@ import * as ReadableAPI from '../utils/api'
 export const FETCH_POSTS = 'FETCH_POSTS'
 export const DISPLAY_POSTS = 'DISPLAY_POSTS'
 export const CREATE_POST = 'CREATE_POST'
+export const SET_POST_TO_EDIT = 'SET_POST_TO_EDIT'
 export const UPDATE_POST = 'UPDATE_POST'
 export const DELETE_POST = 'DELETE_POST'
 export const FETCH_COMMENTS = 'FETCH_COMMENTS'
@@ -126,23 +127,26 @@ export function createPost({
   }
 }
 
-export function editPost(id){
-  return dispatch => {
-    return ReadableAPI.getSinglePost(id)
-    .then(res =>{
+export function setPostToEdit(id) {
+  return {
+    type: SET_POST_TO_EDIT,
+    id
+  }
+}
 
+export function editPost({id, title, post}){
+  return dispatch => {
+    return ReadableAPI.editPost(id, title, post)
+    .then(res =>{
+      dispatch(updatePost(res))
     })
   }
 }
 
-export function updatePost({id, timestamp, title, body, category}) {
+export function updatePost(post) {
   return {
     type: UPDATE_POST,
-    id,
-    timestamp,
-    title,
-    body,
-    category
+    post
   }
 }
 

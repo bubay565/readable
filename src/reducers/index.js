@@ -6,6 +6,7 @@ import {
   DELETE_POST,
   FETCH_POSTS,
   DISPLAY_POSTS,
+  SET_POST_TO_EDIT,
   FETCH_CATEGORIES,
   DISPLAY_CATEGORIES,
   SORT_POST,
@@ -90,6 +91,13 @@ function posts (state = {
             ...state,
             editPost: false,
             editComment: false,
+            posts: state.posts.map(post => {
+              if(post.id === action.post.id) {
+                post.title = action.post.title
+                post.body = action.post.body
+              }
+              return post
+            })
           }
 
         case DELETE_POST:
@@ -120,6 +128,16 @@ function posts (state = {
                     return post
                   })
             }
+
+        case SET_POST_TO_EDIT:
+          return {
+            ...state,
+            editComment: false,
+            editPost: true,
+            posts: state.posts,
+            postToEditId: action.id
+          }
+
         case UPDATE_COMMENT_VOTE:
           return {
             ...state,

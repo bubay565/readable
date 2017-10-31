@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { votePost, voteComment, deletePost, createComment, editPost, setCommentToEdit, updateComment } from '../actions'
+import { votePost, voteComment, deletePost, createComment, setPostToEdit, editPost, setCommentToEdit, updateComment } from '../actions'
 import Comments from './Comments'
 import EditComment from './EditComment'
+import EditPost from './EditPost'
 
 class PostDetail extends Component {
 
@@ -22,8 +23,12 @@ class PostDetail extends Component {
     this.props.dispatch(createComment(values))
   }
 
-  editPost = (id) => {
-    this.props.dispatch(editPost(id))
+  setPostToEdit = (id) => {
+    this.props.dispatch(setPostToEdit(id))
+  }
+
+  editPost = (values) => {
+    this.props.dispatch(editPost(values))
   }
 
   setCommentToEdit = (id, parentId) => {
@@ -40,8 +45,26 @@ class PostDetail extends Component {
     if (!post) {
       return <div>Loading...</div>
     }
+
+    /*if(this.props.editPost === true) {
+      return(
+        <EditPost
+          post={post}
+          onEditPost={values => {
+            this.editPost(values)}}
+        />
+      )
+    }*/
+
     return (
       <div className="posts">
+        {this.props.editPost === true && (
+          <EditPost
+            post={post}
+            onEditPost={values => {
+              this.editPost(values)}}
+          />
+        )}
         <h2>Post Detail</h2>
         <div>
           <p>Title: {post.title}</p>
@@ -49,7 +72,7 @@ class PostDetail extends Component {
           <p>Vote score: {post.voteScore}
               <button onClick={() => this.votePost(post.id, 'upVote')}>Vote Up</button>
               <button onClick={() => this.votePost(post.id, 'downVote')}>Vote Down</button>
-              <button onClick={() => this.editPost(post.id)}>Edit Post</button>
+              <button onClick={() => this.setPostToEdit(post.id)}>Edit Post</button>
               <button onClick={() => this.deletePost(post.id)}>Delete Post</button>
           </p>
           <div>

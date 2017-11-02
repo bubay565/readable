@@ -18,7 +18,6 @@ class NewPost extends Component {
   }
 
   render(){
-    console.log('this', this)
     return (
       <div className="posts">
         <h2>Create a Post</h2>

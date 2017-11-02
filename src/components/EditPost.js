@@ -34,7 +34,7 @@ class EditPost extends Component {
 
   render() {
     return (
-      <div>
+      <div className="posts">
         <h4>Edit Post</h4>
         <form onSubmit={this.handleSubmit}>
           <fieldset className="newpost">

@@ -14,7 +14,8 @@ import {
   UPDATE_COMMENT_VOTE,
   CREATE_COMMENT,
   SET_COMMENT_TO_EDIT,
-  UPDATE_COMMENT
+  UPDATE_COMMENT,
+  DELETE_COMMENT
 } from '../actions'
 
 function categories(
@@ -194,6 +195,24 @@ function posts (state = {
                         })
                       } return post
                     })
+          }
+
+        case DELETE_COMMENT:
+          return {
+            ...state,
+            editComment: false,
+            editPost: false,
+            commentToEditId: '',
+            postToEditId: '',
+            posts: state.posts.map((post) => {
+              if(post.id === action.comment.parentId) {
+                console.log('post', post)
+                console.log('comment', action.comment)
+                post.comments.filter(comment => comment.id !== action.comment.id)
+              }
+              console.log('post filter', post)
+              return post
+            })
           }
 
         default :

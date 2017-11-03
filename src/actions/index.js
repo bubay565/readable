@@ -215,13 +215,19 @@ export function commentUpdated(comment){
   }
 }
 
-export function deleteComment({id}){
+export function deleteComment(id){
   return dispatch => {
-    return ReadableAPI.deletePost(id)
+    return ReadableAPI.deleteComment(id)
     .then(res => {
       console.log('delete', res)
+      dispatch(commentDeleted(res))
     })
-    //type: DELETE_COMMENT,
-    //id
+  }
+}
+
+export function commentDeleted(comment){
+  return {
+    type: DELETE_COMMENT,
+    comment
   }
 }

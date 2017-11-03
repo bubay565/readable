@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { votePost, voteComment, deletePost, createComment, setPostToEdit, editPost, setCommentToEdit, updateComment } from '../actions'
+import { votePost, voteComment, deletePost, createComment, setPostToEdit, editPost, setCommentToEdit, updateComment, deleteComment } from '../actions'
 import Comments from './Comments'
 import EditComment from './EditComment'
 import EditPost from './EditPost'
@@ -39,6 +39,10 @@ class PostDetail extends Component {
     this.props.dispatch(updateComment(values))
   }
 
+  deleteComment = (id) => {
+    this.props.dispatch(deleteComment(id))
+  }
+
   render(){
     console.log('post detail props', this.props)
     const post = this.props.posts[0]
@@ -48,7 +52,7 @@ class PostDetail extends Component {
 
     if(this.props.editPost === true) {
       return(
-        
+
           <EditPost
             post={post}
             onEditPost={values => {
@@ -85,7 +89,7 @@ class PostDetail extends Component {
                             <button onClick={() => this.voteComment(comment.id, 'upVote')}>Vote Up</button>
                             <button onClick={() => this.voteComment(comment.id, 'downVote')}>Vote Down</button>
                             <button onClick={() => this.setCommentToEdit(comment.id, post.id)}>Edit Comment</button>
-                            <button>Delete Comment</button>
+                            <button onClick={() => this.deleteComment(comment.id)}>Delete Comment</button>
                           </li>
                         </ul>
                       </div>

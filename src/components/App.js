@@ -27,7 +27,6 @@ class App extends Component {
     const { categories, posts } = this.props
     return (
       <div className="container">
-        {console.log('properties', this.props)}
         <Banner />
 
         <div className="main">

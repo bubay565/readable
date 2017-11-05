@@ -64,7 +64,6 @@ class PostDetail extends Component {
   }
 
   render(){
-    console.log('post detail props', this.props)
     const post = this.props.posts[0]
     if (!post) {
       return <Loading delay={200} type='spin' color='#222' className='loading' />
@@ -171,8 +170,6 @@ class PostDetail extends Component {
 }
 
 function mapStateToProps(state, match){
-  console.log('post detail state', state)
-  console.log('post detail match', match)
   return {
     posts: state.posts.posts.filter(post => post.id === match.match.params.id),
     editComment: state.posts.editComment,

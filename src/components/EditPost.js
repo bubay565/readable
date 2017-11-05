@@ -9,7 +9,6 @@ class EditPost extends Component {
   }
 
   componentDidMount() {
-    console.log('editpost props', this.props)
     this.setState(() => ({
       title: this.props.post.title,
       post: this.props.post.body,

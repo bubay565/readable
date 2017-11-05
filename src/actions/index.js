@@ -4,14 +4,18 @@ export const FETCH_POSTS = 'FETCH_POSTS'
 export const DISPLAY_POSTS = 'DISPLAY_POSTS'
 export const CREATE_POST = 'CREATE_POST'
 export const SET_POST_TO_EDIT = 'SET_POST_TO_EDIT'
+export const CANCEL_EDIT_POST = 'CANCEL_EDIT_POST'
 export const UPDATE_POST = 'UPDATE_POST'
 export const DELETE_POST = 'DELETE_POST'
+export const CONFIRM_DELETE_POST = 'CONFIRM_DELETE_POST'
+export const CANCEL_DELETE_POST = 'CANCEL_DELETE_POST'
 export const FETCH_COMMENTS = 'FETCH_COMMENTS'
 export const CREATE_COMMENT = 'CREATE_COMMENT'
 export const DISPLAY_COMMENT = 'DISPLAY_COMMENT'
 export const UPDATE_COMMENT = 'UPDATE_COMMENT'
 export const DELETE_COMMENT = 'DELETE_COMMENT'
 export const SET_COMMENT_TO_EDIT = 'SET_COMMENT_TO_EDIT'
+export const CANCEL_EDIT_COMMENT = 'CANCEL_EDIT_COMMENT'
 export const UPDATE_POST_VOTE = 'UPDATE_POST_VOTE'
 export const UPDATE_COMMENT_VOTE = 'UPDATE_COMMENT_VOTE'
 export const FETCH_CATEGORIES = 'FETCH_CATEGORIES'
@@ -134,6 +138,12 @@ export function setPostToEdit(id) {
   }
 }
 
+export function cancelEditPost(){
+  return {
+    type: CANCEL_EDIT_POST
+  }
+}
+
 export function editPost({id, title, post}){
   return dispatch => {
     return ReadableAPI.editPost(id, title, post)
@@ -157,6 +167,19 @@ export function deletePost(id){
     .then(res => {
       dispatch(removeDeletedPost(id))
     })
+  }
+}
+
+export function confirmDeletePost(id) {
+  return {
+    type: CONFIRM_DELETE_POST,
+    id
+  }
+}
+
+export function cancelDeletePost() {
+  return {
+    type: CANCEL_DELETE_POST
   }
 }
 
@@ -195,6 +218,12 @@ export function setCommentToEdit(id, parentId){
     type: SET_COMMENT_TO_EDIT,
     id,
     parentId
+  }
+}
+
+export function cancelEditComment(){
+  return {
+    type: CANCEL_EDIT_COMMENT
   }
 }
 

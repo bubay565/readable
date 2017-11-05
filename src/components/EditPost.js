@@ -18,11 +18,19 @@ class EditPost extends Component {
   }
 
   updatePost = (post) => {
-        this.setState({post})
-    }
+    this.setState({post})
+  }
 
   updateTitle = (title) => {
     this.setState({title})
+  }
+
+  componentWillUnmount() {
+    this.cancelEditPost()
+  }
+
+  cancelEditPost = () => {
+    this.props.onCancelEditPost()
   }
 
   handleSubmit = (event) => {
@@ -44,6 +52,7 @@ class EditPost extends Component {
             <textarea id="post" name="post" value={this.state.post} onChange={(event) => this.updatePost(event.target.value)}/>
           </fieldset>
           <input className="btn-default" type="submit" name="submit" value="Submit"/>
+          <input className="btn-default" type="button" name="cancel" value="Cancel" onClick={this.cancelEditPost}/>
         </form>
       </div>
     )

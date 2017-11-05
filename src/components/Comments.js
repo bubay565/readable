@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import serializeForm from 'form-serialize'
-//import PropTypes from 'prop-types'
 
 class Comments extends Component {
 
@@ -10,6 +9,7 @@ class Comments extends Component {
     values.timestamp = Date.now();
     values.id = this.generateCommentId();
     values.parentId = this.props.parentId;
+    document.getElementById("commentForm").reset();
     this.props.onCreateComment(values);
   }
 
@@ -23,7 +23,7 @@ class Comments extends Component {
     return (
       <div>
         <h4>Write a Comment</h4>
-        <form onSubmit={this.handleSubmit}>
+        <form id="commentForm" onSubmit={this.handleSubmit}>
           <fieldset className="newpost">
             <label htmlFor="name">Name</label>
             <input type="text" id="name" name="author"/>

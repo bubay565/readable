@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import Loading from 'react-loading'
 
 class Posts extends Component {
 
@@ -28,7 +29,7 @@ class Posts extends Component {
         <div className="posts-list">
           <ul>
             {posts.isLoading === true
-              ? <li>Loading...</li>
+              ? <Loading delay={200} type='spin' color='#222' className='loading' />
               : posts.filter(post => !post.deleted)
               .sort((post1, post2) =>
                  post2[sortParam] - post1[sortParam]

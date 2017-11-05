@@ -14,9 +14,17 @@ class EditComment extends Component {
     }))
   }
 
+  componentWillUnmount() {
+    this.cancelEditComment()
+  }
+
+  cancelEditComment = () => {
+    this.props.onCancelEditComment()
+  }
+
   updateComment = (comment) => {
-        this.setState({comment})
-    }
+    this.setState({comment})
+  }
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -36,6 +44,7 @@ class EditComment extends Component {
             <input type="text" id="comment" name="body" value={this.state.comment} onChange={(event) => this.updateComment(event.target.value)}/>
           </fieldset>
           <input className="btn-default" type="submit" name="submit" value="Submit"/>
+          <input className="btn-default" type="button" name="cancel" value="Cancel" onClick={this.cancelEditComment}/>
         </form>
       </div>
     )

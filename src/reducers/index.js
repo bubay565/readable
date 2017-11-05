@@ -7,6 +7,9 @@ import {
   FETCH_POSTS,
   DISPLAY_POSTS,
   SET_POST_TO_EDIT,
+  CANCEL_EDIT_POST,
+  CONFIRM_DELETE_POST,
+  CANCEL_DELETE_POST,
   FETCH_CATEGORIES,
   DISPLAY_CATEGORIES,
   SORT_POST,
@@ -14,6 +17,7 @@ import {
   UPDATE_COMMENT_VOTE,
   CREATE_COMMENT,
   SET_COMMENT_TO_EDIT,
+  CANCEL_EDIT_COMMENT,
   UPDATE_COMMENT,
   DELETE_COMMENT
 } from '../actions'
@@ -50,7 +54,8 @@ function posts (state = {
   editPost: false,
   postToEditId: '',
   editComment: false,
-  commentToEditId: ''
+  commentToEditId: '',
+  confirmDeleteModalOpen: false
 }, action) {
   const { id, timestamp, title, body, author, category, voteScore, deleted } = action
     switch(action.type) {
@@ -101,6 +106,26 @@ function posts (state = {
             })
           }
 
+        case CONFIRM_DELETE_POST:
+          return{
+            ...state,
+            editComment: false,
+            editPost: false,
+            posts: state.posts,
+            postToEditId: '',
+            confirmDeleteModalOpen: true
+          }
+
+          case CANCEL_DELETE_POST:
+            return {
+              ...state,
+              editComment: false,
+              editPost: false,
+              posts: state.posts,
+              postToEditId: '',
+              confirmDeleteModalOpen: false
+            }
+
         case DELETE_POST:
           return {
             ...state,
@@ -137,6 +162,15 @@ function posts (state = {
             editPost: true,
             posts: state.posts,
             postToEditId: action.id
+          }
+
+        case CANCEL_EDIT_POST:
+          return {
+            ...state,
+            editPost: false,
+            editComment: false,
+            posts: state.posts,
+            postToEditId: ''
           }
 
         case UPDATE_COMMENT_VOTE:
@@ -178,6 +212,17 @@ function posts (state = {
             postToEditId: action.parentId
           }
 
+        case CANCEL_EDIT_COMMENT:
+          return {
+            ...state,
+            editComment: false,
+            editPost: false,
+            commentToEditId: '',
+            postToEditId: '',
+            posts: state.posts,
+            confirmDeleteModalOpen: false
+          }
+
         case UPDATE_COMMENT:
           return {
             ...state,
@@ -206,11 +251,8 @@ function posts (state = {
             postToEditId: '',
             posts: state.posts.map((post) => {
               if(post.id === action.comment.parentId) {
-                console.log('post', post)
-                console.log('comment', action.comment)
-                post.comments.filter(comment => comment.id !== action.comment.id)
+                post.comments = post.comments.filter(comment => comment.id !== action.comment.id)
               }
-              console.log('post filter', post)
               return post
             })
           }

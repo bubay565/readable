@@ -1,5 +1,168 @@
+{
+    border: solid red 1px !important
+}
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  background-color: grey;
+  color: white;
+  padding: 2em 0;
+}
+
+.main {
+  display: flex;
+}
+
+.categories {
+  flex: 1;
+  justify-content: center;
+}
+
+.categories ul {
+  list-style: none;
+  text-transform: capitalize;
+}
+
+.categories h2 {
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 1em;
+}
+
+.categories ul a {
+    color: #02b3e4;
+    text-decoration: none;
+}
+
+.categories ul a:hover {
+    text-decoration: underline;
+}
+
+.categories li {
+  padding: 0.25em;
+}
+
+.posts {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 4;
+  align-items: center;
+  width: 100%
+}
+
+.posts ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.post-headers {
+    display: inline;
+}
+
+.post-headers li {
+  display: inline;
+  margin: 2em
+}
+
+.posts-summary {
+  display: inline;
+  margin: 1.5em;
+}
+
+form {
+  margin-bottom: 22px;
+  width: 80%;
+}
+
+input,
+select,
+textarea {
+  font: 300 16px/22px "Lato", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.newpost label {
+  color: #648880;
+  cursor: pointer;
+  font-weight: 400;
+}
+.newpost input,
+.newpost select,
+.newpost textarea {
+  border: 1px solid #c6c9cc;
+  border-radius: 5px;
+  color: #888;
+  display: block;
+  margin: 5px 0 27px 0;
+  padding: 5px 8px;
+}
+.newpost input,
+.newpost textarea {
+  width: 97%;
+}
+.newpost select {
+  height: 34px;
+  width: 10em;
+}
+.newpost textarea {
+  height: 78px;
+}
+.btn-default {
+  border: 0;
+  background: #648880;
+  padding: 11px 30px;
+  font-size: 14px;
+}
+.btn-default:hover {
+  background: #77a198;
+}
+
+.overlay {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+.modal {
+  position: absolute;
+  top: 40px;
+  left: 200px;
+  right: 200px;
+  bottom: 40px;
+  border: 1px solid rgb(204, 204, 204);
+  background: rgb(255, 255, 255);
+  overflow: auto;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  border-radius: 3px;
+  box-shadow: 0 3px 8px 0 rgba(0,0,0,.24), 0 3px 12px 0 rgba(0,0,0,.12);
+  min-width: 500px;
 }

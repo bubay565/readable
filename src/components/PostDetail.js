@@ -2,49 +2,23 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Modal from 'react-modal'
 import Loading from 'react-loading'
-import { votePost, voteComment, deletePost, createComment, setPostToEdit, editPost, setCommentToEdit, updateComment, deleteComment, confirmDeletePost, cancelDeletePost, cancelEditComment, cancelEditPost } from '../actions'
+import { voteComment, createComment, setCommentToEdit, updateComment, deleteComment, cancelEditComment } from '../actions'
 import Comments from './Comments'
 import EditComment from './EditComment'
 import EditPost from './EditPost'
 import DeletePost from './DeletePost'
+import PostActions from './PostActions'
+import NotFound from './NotFound'
 import { getDate, getTime } from '../utils/helpers'
 
 class PostDetail extends Component {
-
-  votePost = (id, option) => {
-    this.props.dispatch(votePost(id, option))
-  }
 
   voteComment = (id, option) => {
     this.props.dispatch(voteComment(id, option))
   }
 
-  deletePost = (id) => {
-    this.props.dispatch(deletePost(id))
-  }
-
-  setPostToDelete = (id) => {
-    this.props.dispatch(confirmDeletePost(id))
-  }
-
-  cancelDelete = () => {
-    this.props.dispatch(cancelDeletePost())
-  }
-
   createComment = (values) => {
     this.props.dispatch(createComment(values))
-  }
-
-  setPostToEdit = (id) => {
-    this.props.dispatch(setPostToEdit(id))
-  }
-
-  cancelEditPost = () => {
-    this.props.dispatch(cancelEditPost())
-  }
-
-  editPost = (values) => {
-    this.props.dispatch(editPost(values))
   }
 
   setCommentToEdit = (id, parentId) => {
@@ -69,15 +43,12 @@ class PostDetail extends Component {
       return <Loading delay={200} type='spin' color='#222' className='loading' />
     }
 
+    if(post.deleted){
+      return <NotFound />
+    }
+
     if(this.props.editPost === true) {
-      return (
-          <EditPost
-            post={post}
-            onEditPost={values => {
-              this.editPost(values)}}
-            onCancelEditPost={this.cancelEditPost}
-          />
-      )
+      return <EditPost post={post} />
     }
 
     return (
@@ -90,13 +61,7 @@ class PostDetail extends Component {
               contentLabel='Modal'
           >
               {this.props.confirmDeleteModalOpen &&
-                <DeletePost
-                  postId={post.id}
-                  category={post.category}
-                  title={post.title}
-                  onConfirmDelete={(id) => {this.deletePost(id)}}
-                  onCancelDelete={() => this.cancelDelete()}
-                  />
+                <DeletePost post={post} />
               }
           </Modal>
 
@@ -105,10 +70,8 @@ class PostDetail extends Component {
             <p>Title: {post.title}</p>
             <p>{post.body}</p>
             <p>Vote score: {post.voteScore}
-                <button onClick={() => this.votePost(post.id, 'upVote')}>Vote Up</button>
-                <button onClick={() => this.votePost(post.id, 'downVote')}>Vote Down</button>
-                <button onClick={() => this.setPostToEdit(post.id)}>Edit Post</button>
-                <button onClick={() => this.setPostToDelete(post.id)}>Delete Post</button>
+                <PostActions postId={post.id}/>
+
             </p>
             <div>
               <h2>Comments</h2>

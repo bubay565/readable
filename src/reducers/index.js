@@ -112,7 +112,7 @@ function posts (state = {
             editComment: false,
             editPost: false,
             posts: state.posts,
-            postToEditId: '',
+            postToEditId: action.id,
             confirmDeleteModalOpen: true
           }
 
@@ -131,6 +131,7 @@ function posts (state = {
             ...state,
             editPost: false,
             editComment: false,
+            confirmDeleteModalOpen: false,
             posts: state.posts.filter(post => post.id !== action.id)
           }
 

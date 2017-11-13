@@ -1,18 +1,34 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { cancelDeletePost, deletePost } from '../actions'
 
-export default function DeletePost ({postId, category, title, onConfirmDelete, onCancelDelete}) {
-  return (
-    <div>
-      <p>Are you certain about deleting this post?</p>
+class DeletePost extends Component {
+
+  deletePost = (id) => {
+    this.props.dispatch(deletePost(id))
+  }
+
+  cancelDelete = () => {
+    this.props.dispatch(cancelDeletePost())
+  }
+
+  render() {
+    let destination = this.props.loc === 'default' ? "/" : `/${this.props.post.category}/${this.props.post.id}/${this.props.post.title}`
+    return (
       <div>
-        <Link to="/" className='new-post' onClick={() => onConfirmDelete(postId)}>
-            Delete
-        </Link>
+        <p>Are you certain about deleting this post?</p>
+        <div>
+          <Link to="/" className='new-post' onClick={() => this.deletePost(this.props.post.id)}>
+              Delete
+          </Link>
+        </div>
+        <div>
+          <Link to={destination} onClick={() => this.cancelDelete()}>Cancel</Link>
+        </div>
       </div>
-      <div>
-        <Link to={`/${category}/${postId}/${title}`} onClick={() => onCancelDelete()}>Cancel</Link>
-      </div>
-    </div>
-  )
+    )
+  }
 }
+
+export default connect()(DeletePost);

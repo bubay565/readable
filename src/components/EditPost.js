@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import serializeForm from 'form-serialize'
+import { connect } from 'react-redux'
+import { editPost, cancelEditPost } from '../actions'
 
 class EditPost extends Component {
   state = {
@@ -9,6 +11,7 @@ class EditPost extends Component {
   }
 
   componentDidMount() {
+    console.log('edit post props', this.props)
     this.setState(() => ({
       title: this.props.post.title,
       post: this.props.post.body,
@@ -28,15 +31,19 @@ class EditPost extends Component {
     this.cancelEditPost()
   }
 
-  cancelEditPost = () => {
-    this.props.onCancelEditPost()
-  }
-
   handleSubmit = (event) => {
     event.preventDefault();
     const values = serializeForm(event.target, {hash:true});
     values.id = this.state.id;
-    this.props.onEditPost(values);
+    this.editPost(values);
+  }
+
+  editPost = (values) => {
+    this.props.dispatch(editPost(values))
+  }
+
+  cancelEditPost = () => {
+    this.props.dispatch(cancelEditPost())
   }
 
   render() {
@@ -58,4 +65,4 @@ class EditPost extends Component {
   }
 }
 
-export default EditPost
+export default connect()(EditPost);

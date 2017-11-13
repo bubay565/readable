@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import Loading from 'react-loading'
+import Modal from 'react-modal'
+import EditPost from './EditPost'
+import DeletePost from './DeletePost'
+import PostActions from './PostActions'
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+
 
 class Posts extends Component {
 
@@ -8,8 +14,31 @@ class Posts extends Component {
     const posts = this.props.posts
     const sortPostsBy = this.props.sortPostsBy
     let sortParam = this.props.sortParam
+    let post, postArray
+
+    if(this.props.editPost || this.props.confirmDeleteModalOpen){
+      postArray = posts.filter(post => post.id === this.props.postToEditId)
+      post = postArray[0]
+    }
+
+    if(this.props.editPost === true) {
+      return <EditPost post={post} />
+    }
+
     return (
       <div className="posts">
+
+      <Modal
+          className='modal'
+          overlayClassName='overlay'
+          isOpen={this.props.confirmDeleteModalOpen}
+          contentLabel='Modal'
+      >
+          {this.props.confirmDeleteModalOpen &&
+            <DeletePost post={post} loc={'default'} />
+          }
+      </Modal>
+
         <h2>Posts</h2>
         <div className="post-headers">
           <Link to="/new-post" className='new-post'>
@@ -42,6 +71,7 @@ class Posts extends Component {
                       <li className="posts-summary">{post.author}</li>
                       <li className="posts-summary">{post.voteScore}</li>
                       <li className="posts-summary">{post.comments.length}</li>
+                      <PostActions postId={post.id}/>
                     </ul>
                   </div>
                 </li>
@@ -53,4 +83,12 @@ class Posts extends Component {
   }
 }
 
-export default Posts
+function mapStateToProps(state){
+  return {
+    editPost: state.posts.editPost,
+    postToEditId: state.posts.postToEditId,
+    confirmDeleteModalOpen: state.posts.confirmDeleteModalOpen
+  }
+}
+
+export default connect(mapStateToProps)(Posts);

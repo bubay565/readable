@@ -1,7 +1,13 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { createComment } from '../actions'
 import serializeForm from 'form-serialize'
 
 class Comments extends Component {
+
+  createComment = (values) => {
+    this.props.dispatch(createComment(values))
+  }
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -10,7 +16,7 @@ class Comments extends Component {
     values.id = this.generateCommentId();
     values.parentId = this.props.parentId;
     document.getElementById("commentForm").reset();
-    this.props.onCreateComment(values);
+    this.createComment(values);
   }
 
   generateCommentId = () => (
@@ -37,4 +43,4 @@ class Comments extends Component {
   }
 }
 
-export default Comments
+export default connect()(Comments);

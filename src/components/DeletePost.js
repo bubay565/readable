@@ -14,6 +14,7 @@ class DeletePost extends Component {
   }
 
   render() {
+    let destination = this.props.loc === 'default' ? "/" : `/${this.props.post.category}/${this.props.post.id}/${this.props.post.title}`
     return (
       <div>
         <p>Are you certain about deleting this post?</p>
@@ -23,7 +24,7 @@ class DeletePost extends Component {
           </Link>
         </div>
         <div>
-          <Link to={`/${this.props.post.category}/${this.props.post.id}/${this.props.post.title}`} onClick={() => this.cancelDelete()}>Cancel</Link>
+          <Link to={destination} onClick={() => this.cancelDelete()}>Cancel</Link>
         </div>
       </div>
     )

@@ -32,11 +32,10 @@ class Posts extends Component {
           className='modal'
           overlayClassName='overlay'
           isOpen={this.props.confirmDeleteModalOpen}
-          onRequestClose={this.cancelDelete}
           contentLabel='Modal'
       >
           {this.props.confirmDeleteModalOpen &&
-            <DeletePost post={post} />
+            <DeletePost post={post} loc={'default'} />
           }
       </Modal>
 

@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { updateComment, cancelEditComment } from '../actions'
 import serializeForm from 'form-serialize'
 
 class EditComment extends Component {
@@ -18,12 +20,16 @@ class EditComment extends Component {
     this.cancelEditComment()
   }
 
-  cancelEditComment = () => {
-    this.props.onCancelEditComment()
+  updateCommentState = (comment) => {
+    this.setState({comment})
   }
 
-  updateComment = (comment) => {
-    this.setState({comment})
+  updateComment = (values) => {
+    this.props.dispatch(updateComment(values))
+  }
+
+  cancelEditComment = () => {
+    this.props.dispatch(cancelEditComment())
   }
 
   handleSubmit = (event) => {
@@ -31,7 +37,7 @@ class EditComment extends Component {
     const values = serializeForm(event.target, {hash:true});
     values.timestamp = Date.now();
     values.id = this.state.id;
-    this.props.onEditComment(values);
+    this.updateComment(values);
   }
 
   render() {
@@ -41,7 +47,7 @@ class EditComment extends Component {
         <form onSubmit={this.handleSubmit}>
           <fieldset className="newpost">
             <label htmlFor="comment">Comment</label>
-            <input type="text" id="comment" name="body" value={this.state.comment} onChange={(event) => this.updateComment(event.target.value)}/>
+            <input type="text" id="comment" name="body" value={this.state.comment} onChange={(event) => this.updateCommentState(event.target.value)}/>
           </fieldset>
           <input className="btn-default" type="submit" name="submit" value="Submit"/>
           <input className="btn-default" type="button" name="cancel" value="Cancel" onClick={this.cancelEditComment}/>
@@ -51,4 +57,4 @@ class EditComment extends Component {
   }
 }
 
-export default EditComment
+export default connect()(EditComment);

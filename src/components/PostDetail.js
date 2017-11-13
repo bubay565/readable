@@ -2,40 +2,16 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Modal from 'react-modal'
 import Loading from 'react-loading'
-import { voteComment, createComment, setCommentToEdit, updateComment, deleteComment, cancelEditComment } from '../actions'
 import Comments from './Comments'
 import EditComment from './EditComment'
 import EditPost from './EditPost'
 import DeletePost from './DeletePost'
 import PostActions from './PostActions'
+import CommentActions from './CommentActions'
 import NotFound from './NotFound'
 import { getDate, getTime } from '../utils/helpers'
 
 class PostDetail extends Component {
-
-  voteComment = (id, option) => {
-    this.props.dispatch(voteComment(id, option))
-  }
-
-  createComment = (values) => {
-    this.props.dispatch(createComment(values))
-  }
-
-  setCommentToEdit = (id, parentId) => {
-    this.props.dispatch(setCommentToEdit(id, parentId))
-  }
-
-  updateComment = (values) => {
-    this.props.dispatch(updateComment(values))
-  }
-
-  cancelEditComment = () => {
-    this.props.dispatch(cancelEditComment())
-  }
-
-  deleteComment = (id) => {
-    this.props.dispatch(deleteComment(id))
-  }
 
   render(){
     const post = this.props.posts[0]
@@ -57,11 +33,10 @@ class PostDetail extends Component {
               className='modal'
               overlayClassName='overlay'
               isOpen={this.props.confirmDeleteModalOpen}
-              onRequestClose={this.cancelDelete}
               contentLabel='Modal'
           >
               {this.props.confirmDeleteModalOpen &&
-                <DeletePost post={post} />
+                <DeletePost post={post} loc={'detail'}/>
               }
           </Modal>
 
@@ -94,12 +69,7 @@ class PostDetail extends Component {
                           <li className="posts-summary">{comment.body}</li>
                           <li className="posts-summary">{`${getDate(comment.timestamp)} at ${getTime(comment.timestamp)}`}</li>
                           <li className="posts-summary">{comment.voteScore}</li>
-                          <li className="posts-summary">
-                            <button onClick={() => this.voteComment(comment.id, 'upVote')}>Vote Up</button>
-                            <button onClick={() => this.voteComment(comment.id, 'downVote')}>Vote Down</button>
-                            <button onClick={() => this.setCommentToEdit(comment.id, post.id)}>Edit Comment</button>
-                            <button onClick={() => this.deleteComment(comment.id)}>Delete Comment</button>
-                          </li>
+                          <CommentActions postId={post.id} commentId={comment.id} />
                         </ul>
                       </div>
                     </li>
@@ -111,18 +81,9 @@ class PostDetail extends Component {
               ?
                 <EditComment
                   comment={post.comments.filter(comment => comment.id === this.props.commentToEditId)}
-                  onEditComment={values => {
-                    this.updateComment(values)
-                  }}
-                  onCancelEditComment={this.cancelEditComment}
                 />
               :
-                <Comments
-                  parentId={post.id}
-                  onCreateComment={values => {
-                    this.createComment(values)
-                  }}
-                />
+                <Comments parentId={post.id} />
               }
             </div>
         </div>

@@ -16,7 +16,7 @@ import {
   CANCEL_EDIT_COMMENT,
   UPDATE_COMMENT,
   DELETE_COMMENT
-} from '../actions/types'
+} from '../actions'
 
 function postReducer (state = {
   posts: [],

@@ -1,4 +1,4 @@
-import { FETCH_CATEGORIES, DISPLAY_CATEGORIES } from '../actions/types'
+import { FETCH_CATEGORIES, DISPLAY_CATEGORIES } from '../actions'
 
 function categoriesReducer(
   state = {

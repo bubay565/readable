@@ -3,15 +3,15 @@ Readable is an anonymous blogging application. Users can create, vote, edit and 
 on each post. There is a provided Node backend server to facilitate the functionality of this application
 
 ## Installation:
-This project was created using create-react-app. Simply clone/download the repository and navigate to the directory via command line.
-Then execute `npm install` to install the project dependencies.
+This project was created using create-react-app via Yarn. Simply clone/download the repository and navigate to the directory via command line.
+Then execute `yarn install` to install the project dependencies.
 
 For the server, clone/download the following repository `https://github.com/udacity/reactnd-project-readable-starter`
 
 ## Launch Application
 Execute `node server.js start` to launch the server then...
 
-Execute `npm start` to launch the application in a second command line window
+Execute `yarn start` to launch the application in a second command line window
 
 Note: You need the server running for the application to function optimally
 
